@@ -1,0 +1,360 @@
+.content-page {
+  background: #faf6ed;
+  color: #202722;
+  min-height: 100vh;
+}
+
+.content-nav {
+  align-items: center;
+  background: rgba(250, 246, 237, .92);
+  border-bottom: 1px solid rgba(32, 39, 34, .11);
+  display: flex;
+  height: 84px;
+  justify-content: space-between;
+  padding: 0 clamp(20px, 5vw, 80px);
+  position: relative;
+  z-index: 3;
+}
+
+.content-brand {
+  align-items: center;
+  color: inherit;
+  display: flex;
+  font-size: 13px;
+  gap: 11px;
+  text-decoration: none;
+}
+
+.content-brand img {
+  height: 58px;
+  object-fit: contain;
+  width: 58px;
+}
+
+.content-nav > div {
+  align-items: center;
+  display: flex;
+  gap: 7px;
+}
+
+.content-nav button {
+  background: none;
+  border: 0;
+  color: #7a858a;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.content-nav button.active {
+  color: #202722;
+}
+
+.content-hero-image {
+  height: min(66vh, 690px);
+  overflow: hidden;
+  position: relative;
+}
+
+.content-hero-image img {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.content-hero-image div {
+  background: linear-gradient(180deg, transparent 55%, rgba(25, 31, 27, .48));
+  inset: 0;
+  position: absolute;
+}
+
+.content-article {
+  margin: 0 auto;
+  max-width: 920px;
+  padding: 100px 32px 120px;
+}
+
+.journal-article {
+  background: #faf6ed;
+  margin-top: -105px;
+  max-width: 990px;
+  padding-left: clamp(28px, 7vw, 100px);
+  padding-right: clamp(28px, 7vw, 100px);
+  position: relative;
+  z-index: 2;
+}
+
+.content-back {
+  align-items: center;
+  color: #53646b;
+  display: inline-flex;
+  font-size: 11px;
+  gap: 7px;
+  margin-bottom: 64px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.content-eyebrow {
+  color: #7b898e;
+  display: block;
+  font-size: 10px;
+  letter-spacing: 1.6px;
+  margin-bottom: 22px;
+  text-transform: uppercase;
+}
+
+.content-article h1 {
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(50px, 7.4vw, 98px);
+  font-weight: 300;
+  letter-spacing: -5px;
+  line-height: .95;
+  margin: 0;
+}
+
+.content-intro {
+  color: #66767d;
+  font-size: clamp(17px, 2vw, 23px);
+  font-weight: 300;
+  line-height: 1.65;
+  margin: 34px 0 18px;
+  max-width: 760px;
+}
+
+.content-article > small {
+  color: #909a9e;
+  font-size: 10px;
+  letter-spacing: .7px;
+  text-transform: uppercase;
+}
+
+.article-body,
+.legal-sections {
+  border-top: 1px solid rgba(10, 25, 33, .14);
+  margin-top: 64px;
+  padding-top: 54px;
+}
+
+.article-body {
+  margin-left: auto;
+  max-width: 680px;
+}
+
+.article-body p,
+.legal-sections p {
+  color: #42565f;
+  font-family: Georgia, serif;
+  font-size: 18px;
+  line-height: 1.85;
+}
+
+.article-body p + p {
+  margin-top: 28px;
+}
+
+.legal-sections {
+  display: grid;
+  gap: 40px;
+}
+
+.legal-sections section {
+  display: grid;
+  gap: 30px;
+  grid-template-columns: 220px 1fr;
+}
+
+.legal-sections h2,
+.consent-manager h2 {
+  font-family: 'Manrope', sans-serif;
+  font-size: 19px;
+  font-weight: 400;
+  letter-spacing: -.5px;
+  margin: 5px 0 0;
+}
+
+.legal-sections p {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  margin: 0;
+}
+
+.consent-manager {
+  background: #e9eeec;
+  border-radius: 18px;
+  margin-top: 60px;
+  padding: 28px;
+}
+
+.consent-manager p {
+  color: #65757c;
+  font-size: 13px;
+}
+
+.consent-manager > div {
+  display: flex;
+  gap: 9px;
+  margin-top: 20px;
+}
+
+.consent-manager button {
+  background: white;
+  border: 1px solid rgba(10, 25, 33, .15);
+  border-radius: 10px;
+  cursor: pointer;
+  min-height: 44px;
+  padding: 0 15px;
+}
+
+.consent-manager button:last-child {
+  background: #202722;
+  color: white;
+}
+
+.article-cta {
+  background: #26342d;
+  border-radius: 24px;
+  color: white;
+  margin-top: 90px;
+  padding: clamp(32px, 6vw, 70px);
+}
+
+.article-cta > span {
+  color: rgba(255, 255, 255, .58);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.article-cta h2 {
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(34px, 5vw, 60px);
+  font-weight: 300;
+  letter-spacing: -2.8px;
+  line-height: 1;
+  margin: 20px 0 34px;
+  max-width: 650px;
+}
+
+.article-cta a {
+  align-items: center;
+  background: white;
+  border-radius: 11px;
+  color: #202722;
+  display: inline-flex;
+  gap: 11px;
+  padding: 14px 17px;
+  text-decoration: none;
+}
+
+.article-cta a svg:last-child {
+  margin-left: 22px;
+}
+
+.content-footer {
+  align-items: center;
+  background: #19211d;
+  color: rgba(255, 255, 255, .66);
+  display: flex;
+  font-size: 10px;
+  justify-content: space-between;
+  padding: 28px clamp(20px, 5vw, 80px);
+}
+
+.content-footer div {
+  display: flex;
+  gap: 22px;
+}
+
+.content-footer a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.content-not-found {
+  display: grid;
+  min-height: 100vh;
+  place-content: center;
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .content-nav {
+    height: 72px;
+    padding: 0 14px;
+  }
+
+  .content-brand img {
+    height: 50px;
+    width: 50px;
+  }
+
+  .content-hero-image {
+    height: 52vh;
+  }
+
+  .content-article {
+    padding: 70px 20px 90px;
+  }
+
+  .journal-article {
+    margin-top: -42px;
+  }
+
+  .content-back {
+    margin-bottom: 48px;
+  }
+
+  .content-article h1 {
+    font-size: clamp(46px, 14vw, 64px);
+    letter-spacing: -3.5px;
+  }
+
+  .content-intro {
+    font-size: 17px;
+    margin-top: 27px;
+  }
+
+  .article-body,
+  .legal-sections {
+    margin-top: 48px;
+    padding-top: 38px;
+  }
+
+  .article-body p {
+    font-size: 17px;
+    line-height: 1.75;
+  }
+
+  .legal-sections section {
+    gap: 12px;
+    grid-template-columns: 1fr;
+  }
+
+  .legal-sections h2 {
+    font-size: 20px;
+  }
+
+  .legal-sections p {
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .consent-manager > div {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .consent-manager button {
+    min-height: 50px;
+  }
+
+  .article-cta {
+    margin-top: 65px;
+  }
+
+  .content-footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+  }
+}

@@ -14,6 +14,10 @@ import {
   X,
 } from 'lucide-react'
 import './App.css'
+import ContentPage from './ContentPage'
+import CookieConsent from './CookieConsent'
+import { initializeAnalytics, trackEvent } from './analytics'
+import { journalArticles } from './journal'
 import { fetchPortbaseFleet } from './portbase'
 
 const fallbackBoats = [
@@ -164,6 +168,39 @@ const services = [
   },
 ]
 
+const instagramPosts = [
+  {
+    image: '/instagram/mangusta-72.jpg',
+    label: 'Mangusta 72',
+    url: 'https://www.instagram.com/reel/DbK-l1rCDl-/?igsh=dGN0aTYwdjRtYmVy',
+  },
+  {
+    image: '/instagram/ibiza-dream.jpg',
+    label: 'The Ibiza dream',
+    url: 'https://www.instagram.com/reel/Da8MFZxMIJ2/?igsh=MWpxZXppbjh4c25yNA==',
+  },
+  {
+    image: '/instagram/nassima-experience.jpg',
+    label: 'Nassima yacht',
+    url: 'https://www.instagram.com/p/Da26eirjGu3/?igsh=cDk5eGR2OXdmODgx',
+  },
+  {
+    image: '/instagram/marina-experience.jpg',
+    label: 'Marina experience',
+    url: 'https://www.instagram.com/reel/Daupr-1M-eb/?igsh=MXE1bjEydmJwbjg5NQ==',
+  },
+  {
+    image: '/instagram/ibiza-blue.jpg',
+    label: 'Ibiza blue',
+    url: 'https://www.instagram.com/p/Dam7WxQjHU_/?igsh=MXI1OTFuYXFnZTU0dg==',
+  },
+  {
+    image: '/instagram/season-2026.jpg',
+    label: 'Season 2026',
+    url: 'https://www.instagram.com/reel/DahxxZDjfwk/?igsh=a2owc3VvNjN4ajZn',
+  },
+]
+
 const copy = {
   en: {
     yachts: 'Yachts', services: 'Services', about: 'About', talk: "Let's talk",
@@ -218,6 +255,10 @@ const copy = {
     illetesRoute: 'Ses Illetes & Espalmador', calaSaonaRoute: 'Cala Saona & Illetes',
     fullIslandRoute: 'Formentera full day', sunsetRoute: 'Formentera & sunset return',
     sendDayPlan: 'Create my day plan',
+    journalEyebrow: 'The Ibiza journal', journalTitle: 'Stories from the island.',
+    journalIntro: 'Local routes, honest charter guidance and inspiration for a better day at sea.',
+    exploreStory: 'Explore this story', instagramEyebrow: 'From the island',
+    instagramTitle: 'Ibiza, as we live it.', followInstagram: 'Follow on Instagram',
   },
   es: {
     yachts: 'Yates', services: 'Servicios', about: 'Nosotros', talk: 'Hablemos',
@@ -272,10 +313,14 @@ const copy = {
     illetesRoute: 'Ses Illetes y Espalmador', calaSaonaRoute: 'Cala Saona e Illetes',
     fullIslandRoute: 'Día completo en Formentera', sunsetRoute: 'Formentera y regreso al atardecer',
     sendDayPlan: 'Crear mi plan del día',
+    journalEyebrow: 'El diario de Ibiza', journalTitle: 'Historias desde la isla.',
+    journalIntro: 'Rutas locales, consejos honestos e inspiración para disfrutar mejor del mar.',
+    exploreStory: 'Descubrir la historia', instagramEyebrow: 'Desde la isla',
+    instagramTitle: 'Ibiza, como la vivimos.', followInstagram: 'Seguir en Instagram',
   },
 }
 
-function App() {
+function WebsiteApp() {
   const [boats, setBoats] = useState(fallbackBoats)
   const [menuOpen, setMenuOpen] = useState(false)
   const [filter, setFilter] = useState('Charter')
@@ -301,6 +346,23 @@ function App() {
   useEffect(() => {
     document.documentElement.lang = language
   }, [language])
+
+  useEffect(() => {
+    initializeAnalytics()
+
+    const trackOutboundClick = (event) => {
+      const link = event.target.closest('a')
+      if (!link) return
+      const href = link.href || ''
+      if (href.includes('wa.me')) trackEvent('whatsapp_click', { source: link.getAttribute('aria-label') || 'website_link' })
+      else if (href.includes('instagram.com')) trackEvent('instagram_click', { destination: href })
+      else if (href.startsWith('tel:')) trackEvent('phone_click')
+      else if (href.startsWith('mailto:')) trackEvent('email_click')
+    }
+
+    document.addEventListener('click', trackOutboundClick)
+    return () => document.removeEventListener('click', trackOutboundClick)
+  }, [])
 
   useEffect(() => {
     const controller = new AbortController()
@@ -397,6 +459,10 @@ function App() {
       `${t.currentBoat}: ${form.get('currentBoat')}`,
       `${t.purchaseNotes}: ${form.get('message') || '-'}`,
     ]).join('\n')
+    trackEvent('boat_enquiry_submit', {
+      boat: enquiryBoat.name,
+      enquiry_type: isRental ? 'charter' : 'purchase',
+    })
     window.location.href = `mailto:info@rentyourboatibiza.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
   }
 
@@ -412,6 +478,7 @@ function App() {
       `${t.yourName}: ${form.get('name')}`,
       `${t.contactDetails}: ${form.get('contact')}`,
     ].join('\n')
+    trackEvent('day_plan_submit', { route: form.get('route'), group_size: form.get('group') })
     window.location.href = `mailto:info@rentyourboatibiza.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
   }
 
@@ -422,6 +489,11 @@ function App() {
     const message = language === 'es'
       ? `Hola, quiero alquilar un yate en Ibiza.\n\nFecha: ${date}\nInvitados: ${form.get('hero-guests')}\nTipo de yate: ${form.get('hero-type')}\n\n¿Podéis enviarme las opciones disponibles?`
       : `Hello, I would like to rent a yacht in Ibiza.\n\nDate: ${date}\nGuests: ${form.get('hero-guests')}\nYacht type: ${form.get('hero-type')}\n\nCould you send me the available options?`
+    trackEvent('hero_search_submit', {
+      date,
+      guests: form.get('hero-guests'),
+      yacht_type: form.get('hero-type'),
+    })
     window.open(`https://wa.me/34696826329?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer')
   }
 
@@ -633,6 +705,59 @@ function App() {
         </div>
       </section>
 
+      <section className="journal section-pad" id="journal">
+        <div className="section-heading journal-heading">
+          <div>
+            <span className="eyebrow">{t.journalEyebrow}</span>
+            <h2>{t.journalTitle}</h2>
+          </div>
+          <p>{t.journalIntro}</p>
+        </div>
+        <div className="journal-grid">
+          {journalArticles.map((article, index) => (
+            <article className={`journal-card ${index === 0 ? 'journal-featured' : ''}`} key={article.title}>
+              <img src={article.image} alt="" loading="lazy" />
+              <div className="journal-shade" />
+              <div className="journal-card-content">
+                <span>{language === 'es' ? article.categoryEs : article.category}</span>
+                <h3>{language === 'es' ? article.titleEs : article.title}</h3>
+                <p>{language === 'es' ? article.textEs : article.text}</p>
+                <a href={`/journal/${article.slug}`}>
+                  {t.exploreStory} <ArrowRight size={16} />
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="instagram-section section-pad">
+        <div className="section-heading instagram-heading">
+          <div>
+            <span className="eyebrow">{t.instagramEyebrow}</span>
+            <h2>{t.instagramTitle}</h2>
+          </div>
+          <a href="https://www.instagram.com/rentyourboat_ibiza?igsh=cXl6bG9jMW5ibDIz" target="_blank" rel="noreferrer">
+            <AtSign size={18} /> {t.followInstagram} <ArrowRight size={17} />
+          </a>
+        </div>
+        <div className="instagram-grid">
+          {instagramPosts.map((post) => (
+            <a
+              className="instagram-tile"
+              href={post.url}
+              target="_blank"
+              rel="noreferrer"
+              key={post.label}
+              aria-label={`${post.label} — Instagram`}
+            >
+              <img src={post.image} alt={post.label} loading="lazy" />
+              <span><AtSign size={15} /> {post.label}</span>
+            </a>
+          ))}
+        </div>
+      </section>
+
       <section className="contact section-pad">
         <div>
           <span className="eyebrow">{t.conversation}</span>
@@ -659,16 +784,16 @@ function App() {
             <a href="tel:+34696826329">+34 696 82 63 29</a>
             <a href="mailto:info@rentyourboatibiza.com">info@rentyourboatibiza.com</a>
           </div>
-          <a className="social-link" href="https://www.instagram.com/rentyourboat_ibiza/" target="_blank" rel="noreferrer" aria-label="Instagram">
+          <a className="social-link" href="https://www.instagram.com/rentyourboat_ibiza?igsh=cXl6bG9jMW5ibDIz" target="_blank" rel="noreferrer" aria-label="Instagram">
             <AtSign size={20} />
           </a>
         </div>
         <div className="footer-bottom">
           <span>© 2026 Rent Your Boat Ibiza</span>
-          <div><a href="#privacy">Privacy</a><a href="#cookies">Cookies</a></div>
+          <div><a href="/privacy">Privacy</a><a href="/cookies">Cookies</a></div>
           <div className="footer-credits">
             <span>{t.made}</span>
-            <span>Powered by Portbase</span>
+            <a href="https://getportbase.com/" target="_blank" rel="noreferrer">Powered by Portbase</a>
           </div>
         </div>
       </footer>
@@ -925,8 +1050,19 @@ function App() {
           </div>
         </div>
       )}
+      <CookieConsent language={language} />
     </main>
   )
+}
+
+function App() {
+  const path = window.location.pathname.replace(/\/+$/, '') || '/'
+  if (path === '/privacy') return <ContentPage type="privacy" />
+  if (path === '/cookies') return <ContentPage type="cookies" />
+  if (path.startsWith('/journal/')) {
+    return <ContentPage type="journal" slug={decodeURIComponent(path.slice('/journal/'.length))} />
+  }
+  return <WebsiteApp />
 }
 
 export default App
