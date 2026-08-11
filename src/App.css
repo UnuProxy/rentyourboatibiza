@@ -1,0 +1,2361 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Manrope:wght@300;400;500;600&display=swap');
+
+:root {
+  --ink: #0a1921;
+  --muted: #607078;
+  --mist: #f3f5f4;
+  --ivory: #f8f7f2;
+  --gold: #c89922;
+  --line: rgba(10, 25, 33, 0.13);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  color: inherit;
+  font: inherit;
+}
+
+.site-header {
+  align-items: center;
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  background: rgba(7, 22, 29, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 18px;
+  color: white;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  height: 86px;
+  left: 50%;
+  max-width: 1400px;
+  padding: 0 12px 0 22px;
+  position: absolute;
+  top: 18px;
+  transform: translateX(-50%);
+  width: calc(100% - 48px);
+  z-index: 20;
+}
+
+.brand,
+.desktop-nav button,
+.language,
+.menu-button {
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.brand {
+  align-items: center;
+  color: white;
+  display: flex;
+  gap: 13px;
+  justify-self: start;
+  padding: 0;
+}
+
+.brand-logo {
+  border-radius: 50%;
+  display: block;
+  flex: 0 0 auto;
+  height: 64px;
+  object-fit: contain;
+  width: 64px;
+}
+
+.brand-name {
+  color: rgba(255, 255, 255, .94);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.25px;
+}
+
+.brand-name b {
+  color: inherit;
+  font-weight: inherit;
+}
+
+.desktop-nav {
+  align-items: center;
+  display: flex;
+  gap: 34px;
+}
+
+.desktop-nav button,
+.language {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 13px;
+  transition: color 180ms ease;
+}
+
+.desktop-nav button:hover,
+.language:hover {
+  color: white;
+}
+
+.header-actions {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  justify-self: end;
+}
+
+.language span {
+  color: rgba(255, 255, 255, 0.3);
+  margin: 0 4px;
+}
+
+.language {
+  align-items: center;
+  display: flex;
+}
+
+.language button {
+  background: none;
+  border: 0;
+  color: rgba(255, 255, 255, .48);
+  cursor: pointer;
+  font-size: 11px;
+  padding: 5px 2px;
+  transition: color 180ms ease;
+}
+
+.language button.active,
+.language button:hover {
+  color: white;
+}
+
+.contact-pill,
+.primary-button,
+.glass-button,
+.outline-button {
+  align-items: center;
+  border: 0;
+  cursor: pointer;
+  display: inline-flex;
+  font-weight: 500;
+  gap: 12px;
+  justify-content: center;
+  transition: transform 180ms ease, background 180ms ease, color 180ms ease;
+}
+
+.contact-pill {
+  background: white;
+  border-radius: 12px;
+  color: var(--ink);
+  font-size: 13px;
+  padding: 12px 17px;
+}
+
+.contact-pill:hover,
+.primary-button:hover,
+.glass-button:hover,
+.outline-button:hover {
+  transform: translateY(-2px);
+}
+
+.menu-button {
+  align-items: center;
+  color: white;
+  display: none;
+  padding: 8px;
+}
+
+.hero {
+  color: white;
+  height: min(940px, 100svh);
+  min-height: 820px;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-image {
+  animation: heroReveal 1.3s ease both;
+  background-image: url('https://rentyourboatibiza.com/wp-content/uploads/revslider/video-media/Salman-1_12_layer-scaled.jpeg');
+  background-position: center 57%;
+  background-size: cover;
+  inset: 0;
+  position: absolute;
+  transform: scale(1.02);
+}
+
+.hero-shade {
+  background:
+    linear-gradient(90deg, rgba(2, 13, 20, 0.72) 0%, rgba(3, 16, 23, 0.21) 55%, rgba(3, 16, 23, 0.18) 100%),
+    linear-gradient(0deg, rgba(2, 13, 20, 0.6) 0%, transparent 38%, rgba(2, 13, 20, 0.2) 100%);
+  inset: 0;
+  position: absolute;
+}
+
+@keyframes heroReveal {
+  from { opacity: 0; transform: scale(1.08); }
+  to { opacity: 1; transform: scale(1.02); }
+}
+
+.hero-content {
+  left: clamp(28px, 7vw, 110px);
+  max-width: min(620px, 48vw);
+  position: absolute;
+  top: 43%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.eyebrow {
+  align-items: center;
+  color: #747f83;
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 600;
+  gap: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  background: var(--gold);
+  content: '';
+  height: 1px;
+  width: 23px;
+}
+
+.eyebrow.light {
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.hero h1 {
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(54px, 6.2vw, 88px);
+  font-weight: 300;
+  letter-spacing: -4.8px;
+  line-height: 0.95;
+  margin: 27px 0 25px;
+}
+
+.hero h1 strong {
+  display: block;
+  font-weight: 500;
+}
+
+.hero-content > p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.5;
+  max-width: 510px;
+}
+
+.hero-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin-top: 22px;
+}
+
+.hero-trust span {
+  align-items: center;
+  color: rgba(255, 255, 255, .72);
+  display: flex;
+  font-size: 10px;
+  gap: 6px;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 27px;
+}
+
+.hero-buttons a {
+  text-decoration: none;
+}
+
+.hero-search-card {
+  backdrop-filter: blur(22px) saturate(130%);
+  -webkit-backdrop-filter: blur(22px) saturate(130%);
+  background: rgba(250, 250, 247, .94);
+  border: 1px solid rgba(255, 255, 255, .72);
+  border-radius: 24px;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, .2);
+  color: var(--ink);
+  padding: 27px;
+  position: absolute;
+  right: clamp(28px, 6vw, 90px);
+  top: 43%;
+  transform: translateY(-50%);
+  width: min(370px, 36vw);
+  z-index: 3;
+}
+
+.hero-search-card > h2 {
+  font-family: 'Manrope', sans-serif;
+  font-size: 31px;
+  font-weight: 400;
+  letter-spacing: -1.5px;
+  margin: 13px 0 6px;
+}
+
+.hero-search-card > p {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.55;
+  margin: 0 0 20px;
+}
+
+.hero-search-card label {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.hero-search-card label > span {
+  color: #748187;
+  font-size: 8px;
+  letter-spacing: .9px;
+  padding-left: 2px;
+  text-transform: uppercase;
+}
+
+.hero-search-card input,
+.hero-search-card select {
+  background: white;
+  border: 1px solid rgba(10, 25, 33, .13);
+  border-radius: 11px;
+  color: var(--ink);
+  font: inherit;
+  font-size: 12px;
+  height: 46px;
+  outline: none;
+  padding: 0 12px;
+  width: 100%;
+}
+
+.hero-search-card input {
+  color-scheme: light;
+}
+
+.hero-search-row {
+  display: flex;
+  gap: 9px;
+  margin: 12px 0 16px;
+}
+
+.hero-search-card > button {
+  align-items: center;
+  background: var(--ink);
+  border: 0;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  font-size: 12px;
+  justify-content: space-between;
+  padding: 15px 16px;
+  width: 100%;
+}
+
+.hero-fleet-preview {
+  bottom: 22px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  left: 50%;
+  max-width: 1240px;
+  position: absolute;
+  transform: translateX(-50%);
+  width: calc(100% - 56px);
+  z-index: 3;
+}
+
+.hero-fleet-preview > button {
+  align-items: center;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  background: rgba(3, 20, 28, .7);
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 14px;
+  color: white;
+  cursor: pointer;
+  display: grid;
+  gap: 13px;
+  grid-template-columns: 86px 1fr auto;
+  min-width: 0;
+  padding: 8px 13px 8px 8px;
+  text-align: left;
+}
+
+.hero-fleet-preview img {
+  border-radius: 9px;
+  height: 68px;
+  object-fit: cover;
+  width: 86px;
+}
+
+.hero-fleet-preview > button > span {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.hero-fleet-preview small {
+  color: #8cd9f1;
+  font-size: 7px;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.hero-fleet-preview b {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.hero-fleet-preview em {
+  color: rgba(255, 255, 255, .58);
+  font-size: 9px;
+  font-style: normal;
+  margin-top: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.floating-whatsapp {
+  align-items: center;
+  background: #137b62;
+  border: 1px solid rgba(255, 255, 255, .25);
+  border-radius: 999px;
+  bottom: 20px;
+  box-shadow: 0 12px 35px rgba(3, 25, 20, .25);
+  color: white;
+  display: flex;
+  height: 46px;
+  justify-content: center;
+  padding: 0;
+  position: fixed;
+  right: 20px;
+  text-decoration: none;
+  width: 46px;
+  z-index: 40;
+}
+
+.floating-whatsapp span {
+  display: none;
+}
+
+.primary-button,
+.glass-button,
+.outline-button {
+  border-radius: 14px;
+  font-size: 14px;
+  min-height: 51px;
+  padding: 0 22px;
+}
+
+.primary-button {
+  background: white;
+  color: var(--ink);
+}
+
+.primary-button.ivory {
+  background: var(--ivory);
+}
+
+.glass-button {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.11);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: white;
+}
+
+.glass-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.hero-bottom {
+  align-items: center;
+  bottom: 34px;
+  display: flex;
+  font-size: 11px;
+  justify-content: space-between;
+  left: clamp(28px, 7vw, 110px);
+  letter-spacing: 1px;
+  position: absolute;
+  right: clamp(28px, 7vw, 110px);
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+.scroll-cue {
+  align-items: center;
+  background: none;
+  border: 0;
+  color: rgba(255, 255, 255, 0.72);
+  cursor: pointer;
+  display: flex;
+  gap: 11px;
+}
+
+.hero-location {
+  align-items: center;
+  color: rgba(255, 255, 255, 0.58);
+  display: flex;
+  gap: 7px;
+}
+
+.section-pad,
+.collection {
+  margin: 0 auto;
+  max-width: 1440px;
+  padding: 128px clamp(28px, 6.5vw, 100px);
+}
+
+.intro {
+  align-items: end;
+  display: grid;
+  gap: 80px;
+  grid-template-columns: 1.7fr 0.7fr;
+}
+
+.intro h2,
+.section-heading h2,
+.services h2,
+.contact h2 {
+  color: var(--ink);
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(46px, 5.8vw, 82px);
+  font-weight: 300;
+  letter-spacing: -4px;
+  line-height: 1;
+  margin: 24px 0 0;
+}
+
+.intro h2 em {
+  color: #94a0a2;
+  font-family: Georgia, serif;
+  font-weight: 400;
+}
+
+.intro-note {
+  padding-bottom: 6px;
+}
+
+.intro-note p,
+.services-heading > p {
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.7;
+}
+
+.text-link {
+  align-items: center;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  cursor: pointer;
+  display: flex;
+  font-size: 13px;
+  gap: 10px;
+  margin-top: 28px;
+  padding: 0 0 9px;
+}
+
+.collection {
+  background: var(--mist);
+  max-width: none;
+}
+
+.collection > * {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1240px;
+}
+
+.section-heading {
+  align-items: end;
+  display: flex;
+  justify-content: space-between;
+}
+
+.section-heading h2 {
+  font-size: clamp(44px, 5vw, 68px);
+  letter-spacing: -3px;
+}
+
+.filter-bar {
+  background: rgba(255, 255, 255, 0.76);
+  border: 1px solid rgba(10, 25, 33, 0.08);
+  border-radius: 14px;
+  display: flex;
+  padding: 4px;
+}
+
+.filter-bar button {
+  background: none;
+  border: 0;
+  border-radius: 10px;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 13px;
+  min-width: 80px;
+  padding: 10px 15px;
+  transition: 180ms ease;
+}
+
+.filter-bar button.active {
+  background: white;
+  box-shadow: 0 3px 14px rgba(23, 43, 51, 0.09);
+  color: var(--ink);
+}
+
+.yacht-grid {
+  display: grid;
+  gap: 42px 22px;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 58px;
+}
+
+.yacht-card {
+  cursor: pointer;
+  min-width: 0;
+  outline-offset: 8px;
+}
+
+.card-image-wrap {
+  aspect-ratio: 1.34;
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative;
+}
+
+.card-image-wrap::after {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.22), transparent 35%, rgba(0, 0, 0, 0.08));
+  content: '';
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.card-image-wrap img {
+  height: 100%;
+  object-fit: cover;
+  transition: transform 650ms cubic-bezier(.2,.8,.2,1);
+  width: 100%;
+}
+
+.yacht-card:hover img {
+  transform: scale(1.045);
+}
+
+.card-label {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.77);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 9px;
+  color: var(--ink);
+  font-size: 10px;
+  left: 14px;
+  letter-spacing: 1px;
+  padding: 7px 10px;
+  position: absolute;
+  text-transform: uppercase;
+  top: 14px;
+  z-index: 2;
+}
+
+.card-label.rent-label,
+.more-boat-label.rent-label {
+  background: rgba(223, 246, 255, .9);
+  color: #075974;
+}
+
+.card-label.sale-label,
+.more-boat-label.sale-label {
+  background: rgba(255, 243, 210, .92);
+  color: #74500d;
+}
+
+.card-arrow {
+  align-items: center;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.83);
+  border: 0;
+  border-radius: 12px;
+  bottom: 14px;
+  color: var(--ink);
+  cursor: pointer;
+  display: flex;
+  height: 43px;
+  justify-content: center;
+  position: absolute;
+  right: 14px;
+  transition: transform 180ms ease;
+  width: 43px;
+  z-index: 2;
+}
+
+.card-arrow:hover {
+  transform: translateX(3px);
+}
+
+.card-info {
+  align-items: start;
+  display: flex;
+  justify-content: space-between;
+  padding: 19px 3px 0;
+}
+
+.card-info h3 {
+  color: var(--ink);
+  font-family: 'Manrope', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  margin: 0 0 6px;
+}
+
+.card-info p {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 0;
+}
+
+.card-specs {
+  color: #68777d;
+  display: flex;
+  flex-direction: column;
+  font-size: 11px;
+  gap: 7px;
+  padding-top: 3px;
+}
+
+.card-specs span {
+  align-items: center;
+  display: flex;
+  gap: 6px;
+}
+
+.outline-button {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  margin-top: 62px;
+}
+
+.outline-button:hover {
+  background: white;
+}
+
+.experience {
+  background: var(--ink);
+  min-height: 780px;
+  overflow: hidden;
+  position: relative;
+}
+
+.experience-image {
+  background-image: linear-gradient(90deg, transparent 55%, rgba(7, 25, 33, 0.28)), url('https://rentyourboatibiza.com/wp-content/uploads/2025/04/7-4-672x448.jpg');
+  background-position: center;
+  background-size: cover;
+  inset: 0 42% 0 0;
+  position: absolute;
+}
+
+.experience-card {
+  background: rgba(9, 29, 38, 0.86);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 26px;
+  color: white;
+  max-width: 600px;
+  padding: clamp(42px, 6vw, 82px);
+  position: absolute;
+  right: clamp(28px, 7vw, 110px);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.experience-card h2,
+.ibiza-content h2 {
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(43px, 4.8vw, 68px);
+  font-weight: 300;
+  letter-spacing: -3.5px;
+  line-height: 0.98;
+  margin: 24px 0 30px;
+}
+
+.experience-card > p {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.75;
+}
+
+.trust-points {
+  border-top: 1px solid rgba(255, 255, 255, 0.13);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px 22px;
+  margin: 30px 0;
+  padding-top: 25px;
+}
+
+.trust-points span {
+  align-items: center;
+  color: rgba(255, 255, 255, 0.74);
+  display: flex;
+  font-size: 11px;
+  gap: 7px;
+}
+
+.services-heading {
+  gap: 50px;
+}
+
+.services-heading > p {
+  max-width: 340px;
+}
+
+.service-list {
+  border-top: 1px solid var(--line);
+  margin-top: 70px;
+}
+
+.service-row {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  display: grid;
+  gap: 25px;
+  grid-template-columns: 60px 1fr 1.4fr 180px;
+  padding: 38px 8px;
+  text-align: left;
+  transition: padding 220ms ease, background 220ms ease;
+  width: 100%;
+}
+
+.service-row:hover {
+  background: #f8f9f8;
+  padding-left: 18px;
+  padding-right: 18px;
+}
+
+.service-number {
+  color: var(--gold);
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.service-row h3 {
+  color: var(--ink);
+  font-family: 'Manrope', sans-serif;
+  font-size: 25px;
+  font-weight: 400;
+  letter-spacing: -1px;
+  margin: 0;
+}
+
+.service-row p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.65;
+  margin: 0;
+  max-width: 420px;
+}
+
+.service-link {
+  align-items: center;
+  display: flex;
+  font-size: 12px;
+  gap: 7px;
+  justify-content: flex-end;
+}
+
+.ibiza-callout {
+  background-image: linear-gradient(90deg, rgba(3, 20, 28, 0.68), rgba(3, 20, 28, 0.08)), url('https://rentyourboatibiza.com/wp-content/uploads/2025/04/2-11-672x448.jpg');
+  background-position: center;
+  background-size: cover;
+  color: white;
+  height: 750px;
+  position: relative;
+}
+
+.ibiza-content {
+  left: clamp(28px, 7vw, 110px);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.ibiza-content h2 {
+  font-size: clamp(55px, 7vw, 98px);
+  letter-spacing: -5px;
+  margin-bottom: 42px;
+}
+
+.contact {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.round-contact {
+  align-items: center;
+  background: var(--ink);
+  border: 0;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 176px;
+  justify-content: center;
+  transition: transform 250ms ease, background 250ms ease;
+  width: 176px;
+}
+
+.round-contact:hover {
+  background: #16333f;
+  transform: rotate(-5deg) scale(1.03);
+}
+
+.round-contact span {
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+footer {
+  background: #07171e;
+  color: white;
+  padding: 80px clamp(28px, 7vw, 110px) 28px;
+}
+
+.footer-top {
+  display: grid;
+  gap: 50px;
+  grid-template-columns: 1.5fr 1fr 1fr auto;
+  padding-bottom: 75px;
+}
+
+.footer-brand {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.footer-logo {
+  display: block;
+  height: 92px;
+  object-fit: contain;
+  width: 88px;
+}
+
+.footer-brand p,
+.footer-column p,
+.footer-column a {
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 12px;
+  line-height: 1.7;
+  margin: 0;
+  text-decoration: none;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.footer-column > span {
+  color: rgba(255, 255, 255, 0.32);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.footer-column a:hover {
+  color: white;
+}
+
+.social-link {
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  height: 46px;
+  justify-content: center;
+  transition: background 180ms ease;
+  width: 46px;
+}
+
+.social-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.33);
+  display: flex;
+  font-size: 9px;
+  justify-content: space-between;
+  letter-spacing: 0.5px;
+  padding-top: 24px;
+  text-transform: uppercase;
+}
+
+.footer-bottom div {
+  display: flex;
+  gap: 22px;
+}
+
+.footer-bottom a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.boat-experience {
+  animation: boatExperienceIn 500ms cubic-bezier(.2,.8,.2,1) both;
+  background: var(--ivory);
+  inset: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: fixed;
+  z-index: 55;
+}
+
+@keyframes boatExperienceIn {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.boat-experience-nav {
+  align-items: center;
+  color: white;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  left: 0;
+  padding: 18px clamp(18px, 3vw, 42px);
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 4;
+}
+
+.boat-mini-brand,
+.boat-close {
+  align-items: center;
+  background: none;
+  border: 0;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  font-size: 11px;
+  gap: 11px;
+  letter-spacing: .4px;
+}
+
+.boat-mini-brand {
+  justify-self: start;
+}
+
+.boat-close {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(4, 20, 27, .27);
+  border: 1px solid rgba(255, 255, 255, .25);
+  border-radius: 12px;
+  justify-self: end;
+  padding: 10px 13px;
+}
+
+.boat-progress {
+  align-items: center;
+  color: rgba(255, 255, 255, .75);
+  display: flex;
+  font-size: 9px;
+  gap: 11px;
+}
+
+.boat-progress i {
+  background: rgba(255, 255, 255, .25);
+  display: block;
+  height: 1px;
+  width: 88px;
+}
+
+.boat-progress b {
+  background: white;
+  display: block;
+  height: 1px;
+  transition: width 300ms ease;
+}
+
+.boat-detail-hero {
+  color: white;
+  height: min(900px, 100svh);
+  min-height: 700px;
+  overflow: hidden;
+  position: relative;
+}
+
+.boat-detail-hero > img {
+  animation: galleryImageIn 550ms ease both;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+@keyframes galleryImageIn {
+  from { opacity: .45; transform: scale(1.015); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.boat-detail-shade {
+  background:
+    linear-gradient(90deg, rgba(2, 15, 22, .65), transparent 62%),
+    linear-gradient(0deg, rgba(2, 15, 22, .76), transparent 52%, rgba(2, 15, 22, .22));
+  inset: 0;
+  position: absolute;
+}
+
+.boat-title {
+  bottom: 178px;
+  left: clamp(25px, 6.5vw, 100px);
+  position: absolute;
+  z-index: 2;
+}
+
+.boat-title h2 {
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(64px, 9vw, 132px);
+  font-weight: 300;
+  letter-spacing: -7px;
+  line-height: .9;
+  margin: 24px 0 19px;
+}
+
+.boat-title p {
+  color: rgba(255, 255, 255, .78);
+  font-size: 16px;
+  font-weight: 300;
+  margin: 0;
+}
+
+.boat-quick-specs {
+  bottom: 44px;
+  display: flex;
+  gap: clamp(20px, 4vw, 65px);
+  left: clamp(25px, 6.5vw, 100px);
+  position: absolute;
+  z-index: 2;
+}
+
+.boat-quick-specs > span {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  gap: 6px;
+  min-width: 78px;
+}
+
+.boat-quick-specs small {
+  color: rgba(255, 255, 255, .5);
+  font-size: 8px;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+}
+
+.boat-thumbnails {
+  bottom: 38px;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(4, 82px);
+  position: absolute;
+  right: clamp(25px, 4vw, 60px);
+  z-index: 2;
+}
+
+.boat-thumbnails button {
+  aspect-ratio: 1.45;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  cursor: pointer;
+  opacity: .55;
+  overflow: hidden;
+  padding: 3px;
+  position: relative;
+  transition: opacity 180ms ease, border-color 180ms ease;
+}
+
+.boat-thumbnails button.active {
+  border-color: white;
+  opacity: 1;
+}
+
+.boat-thumbnails img {
+  border-radius: 6px;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.boat-thumbnails button span {
+  bottom: 7px;
+  color: white;
+  font-size: 8px;
+  left: 8px;
+  position: absolute;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, .7);
+}
+
+.boat-story {
+  align-items: start;
+  display: grid;
+  gap: clamp(40px, 6vw, 90px);
+  grid-template-columns: 1.1fr 1fr .72fr;
+  margin: 0 auto;
+  max-width: 1440px;
+  padding: 125px clamp(25px, 6.5vw, 100px);
+}
+
+.boat-story-copy h3,
+.more-boats-heading h3 {
+  color: var(--ink);
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(44px, 5vw, 70px);
+  font-weight: 300;
+  letter-spacing: -3.8px;
+  line-height: 1;
+  margin: 24px 0 0;
+}
+
+.boat-story-text {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.8;
+  padding-top: 39px;
+}
+
+.boat-story-text p {
+  margin: 0 0 20px;
+}
+
+.boat-booking-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(12, 31, 39, .08);
+  display: flex;
+  flex-direction: column;
+  padding: 27px;
+}
+
+.boat-booking-card.rent-card {
+  border-top: 4px solid #27b9e9;
+}
+
+.boat-booking-card.sale-card {
+  border-top: 4px solid var(--gold);
+}
+
+.boat-booking-card.rent-card > span {
+  color: #0980a7;
+}
+
+.boat-booking-card > span {
+  color: var(--gold);
+  font-size: 9px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+.boat-booking-card strong {
+  color: var(--ink);
+  font-family: 'Manrope', sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  margin-top: 13px;
+}
+
+.boat-booking-card p {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+  margin: 12px 0 22px;
+}
+
+.boat-booking-card button {
+  align-items: center;
+  background: var(--ink);
+  border: 0;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  font-size: 12px;
+  justify-content: space-between;
+  padding: 15px 16px;
+}
+
+.boat-booking-card small {
+  align-items: center;
+  color: #8b9699;
+  display: flex;
+  font-size: 8px;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 15px;
+  text-transform: uppercase;
+}
+
+.more-boats {
+  background: #e9eeed;
+  padding: 110px clamp(25px, 6.5vw, 100px) 125px;
+}
+
+.more-boats-heading {
+  align-items: end;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto 50px;
+  max-width: 1240px;
+}
+
+.more-boats-heading h3 {
+  font-size: clamp(40px, 4.5vw, 62px);
+}
+
+.more-boats-heading > span {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.more-boats-track {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 0 auto;
+  max-width: 1240px;
+}
+
+.more-boats-track > button {
+  aspect-ratio: 1.25;
+  background: #0a1921;
+  border: 0;
+  border-radius: 17px;
+  color: white;
+  cursor: pointer;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  text-align: left;
+}
+
+.more-boats-track > button::after {
+  background: linear-gradient(0deg, rgba(2, 14, 20, .75), transparent 60%);
+  content: '';
+  inset: 0;
+  position: absolute;
+}
+
+.more-boats-track img {
+  height: 100%;
+  object-fit: cover;
+  transition: transform 500ms ease;
+  width: 100%;
+}
+
+.more-boats-track > button:hover img {
+  transform: scale(1.045);
+}
+
+.more-boat-label {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, .78);
+  border-radius: 8px;
+  color: var(--ink);
+  font-size: 8px;
+  left: 14px;
+  letter-spacing: 1px;
+  padding: 7px 9px;
+  position: absolute;
+  text-transform: uppercase;
+  top: 14px;
+  z-index: 2;
+}
+
+.more-boat-info {
+  bottom: 19px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  left: 20px;
+  position: absolute;
+  z-index: 2;
+}
+
+.more-boat-info b {
+  font-family: 'Manrope', sans-serif;
+  font-size: 19px;
+  font-weight: 400;
+}
+
+.more-boat-info small {
+  color: rgba(255, 255, 255, .65);
+  font-size: 10px;
+}
+
+.more-boat-arrow {
+  bottom: 23px;
+  position: absolute;
+  right: 20px;
+  z-index: 2;
+}
+
+.menu-overlay {
+  align-items: center;
+  animation: overlayIn 250ms ease both;
+  background: rgba(5, 19, 26, 0.98);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  position: fixed;
+  z-index: 50;
+}
+
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.close-button {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  padding: 12px;
+  position: absolute;
+  right: 28px;
+  top: 28px;
+}
+
+.menu-overlay nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-logo {
+  height: 88px;
+  left: 28px;
+  object-fit: contain;
+  position: absolute;
+  top: 28px;
+  width: 84px;
+}
+
+.menu-overlay nav button {
+  align-items: baseline;
+  background: none;
+  border: 0;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(44px, 8vw, 92px);
+  font-weight: 300;
+  gap: 25px;
+  letter-spacing: -4px;
+  text-align: left;
+}
+
+.menu-overlay nav button span {
+  color: var(--gold);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.modal-backdrop {
+  align-items: center;
+  animation: overlayIn 200ms ease both;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  background: rgba(3, 16, 23, 0.66);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 20px;
+  position: fixed;
+  z-index: 60;
+}
+
+.enquiry-modal {
+  background: rgba(250, 250, 247, 0.97);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 28px;
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.25);
+  max-width: 520px;
+  max-height: calc(100svh - 40px);
+  overflow-y: auto;
+  padding: 45px;
+  position: relative;
+  width: 100%;
+}
+
+.enquiry-modal.boat-enquiry-modal {
+  max-width: 680px;
+}
+
+.enquiry-modal.rent-modal {
+  border-top: 4px solid #27b9e9;
+}
+
+.enquiry-modal.sale-modal {
+  border-top: 4px solid var(--gold);
+}
+
+.enquiry-modal.day-plan-modal {
+  border-top: 4px solid #2eced4;
+}
+
+.enquiry-modal.rent-modal .eyebrow::before {
+  background: #27b9e9;
+}
+
+.enquiry-modal.day-plan-modal .eyebrow::before {
+  background: #2eced4;
+}
+
+.enquiry-modal.rent-modal .charter-submit {
+  background: #075974;
+}
+
+.enquiry-modal.day-plan-modal .charter-submit {
+  background: #07535c;
+}
+
+.modal-close {
+  background: #e9eceb;
+  border: 0;
+  border-radius: 50%;
+  color: var(--ink);
+  cursor: pointer;
+  padding: 9px;
+  position: absolute;
+  right: 18px;
+  top: 18px;
+}
+
+.modal-icon {
+  align-items: center;
+  border-radius: 50%;
+  display: flex;
+  height: 64px;
+  justify-content: center;
+  margin-bottom: 28px;
+  overflow: hidden;
+  width: 62px;
+}
+
+.modal-icon img {
+  height: 100%;
+  object-fit: contain;
+  width: 100%;
+}
+
+.enquiry-modal h2 {
+  color: var(--ink);
+  font-family: 'Manrope', sans-serif;
+  font-size: 42px;
+  font-weight: 300;
+  letter-spacing: -2px;
+  margin: 12px 0;
+}
+
+.enquiry-modal > p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.enquiry-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 28px 0;
+}
+
+.enquiry-options button {
+  align-items: center;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  font-size: 13px;
+  justify-content: space-between;
+  padding: 14px 16px;
+  transition: background 180ms ease;
+}
+
+.enquiry-options button:hover {
+  background: var(--mist);
+}
+
+.modal-contacts {
+  display: flex;
+  gap: 10px;
+}
+
+.modal-contacts a {
+  align-items: center;
+  background: var(--ink);
+  border-radius: 11px;
+  color: white;
+  display: flex;
+  flex: 1;
+  font-size: 11px;
+  gap: 8px;
+  justify-content: center;
+  padding: 13px;
+  text-decoration: none;
+}
+
+.charter-boat-chip {
+  align-items: center;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  display: flex;
+  gap: 13px;
+  margin: 22px 0 18px;
+  padding: 8px;
+}
+
+.charter-boat-chip img {
+  border-radius: 9px;
+  height: 58px;
+  object-fit: cover;
+  width: 78px;
+}
+
+.charter-boat-chip > span {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.charter-boat-chip b {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.charter-boat-chip small {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.charter-form {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.day-plan-form {
+  margin-top: 26px;
+}
+
+.charter-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.charter-form label > span {
+  color: #768287;
+  font-size: 9px;
+  letter-spacing: .7px;
+  padding-left: 3px;
+  text-transform: uppercase;
+}
+
+.charter-form input,
+.charter-form select,
+.charter-form textarea {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  color: var(--ink);
+  font: inherit;
+  font-size: 12px;
+  min-height: 46px;
+  outline: none;
+  padding: 11px 13px;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+  width: 100%;
+}
+
+.charter-form textarea {
+  min-height: 67px;
+  resize: vertical;
+}
+
+.charter-form input:focus,
+.charter-form select:focus,
+.charter-form textarea:focus {
+  border-color: #83969d;
+  box-shadow: 0 0 0 3px rgba(10, 25, 33, .06);
+}
+
+.charter-form input[type='date'] {
+  color-scheme: light;
+}
+
+.charter-form .full-field,
+.charter-submit {
+  grid-column: 1 / -1;
+}
+
+.charter-submit {
+  align-items: center;
+  background: var(--ink);
+  border: 0;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  font-size: 12px;
+  justify-content: space-between;
+  margin-top: 3px;
+  padding: 15px 17px;
+}
+
+.privacy-note {
+  align-items: center;
+  color: #8b9699;
+  display: flex;
+  font-size: 9px;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 19px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 980px) {
+  .site-header {
+    grid-template-columns: 1fr auto;
+  }
+
+  .desktop-nav,
+  .contact-pill {
+    display: none;
+  }
+
+  .menu-button {
+    display: flex;
+  }
+
+  .hero h1 {
+    letter-spacing: -4px;
+  }
+
+  .hero {
+    height: 1080px;
+    min-height: 1080px;
+  }
+
+  .hero-content {
+    left: 28px;
+    max-width: calc(100% - 56px);
+    right: 28px;
+    top: 150px;
+    transform: none;
+  }
+
+  .hero-search-card {
+    left: 28px;
+    right: 28px;
+    top: 535px;
+    transform: none;
+    width: auto;
+  }
+
+  .intro {
+    align-items: start;
+    gap: 40px;
+    grid-template-columns: 1fr;
+  }
+
+  .intro-note {
+    max-width: 480px;
+  }
+
+  .yacht-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .experience-image {
+    inset: 0 20% 0 0;
+  }
+
+  .service-row {
+    grid-template-columns: 45px 1fr 1.4fr;
+  }
+
+  .service-link {
+    display: none;
+  }
+
+  .boat-title {
+    bottom: 215px;
+  }
+
+  .boat-quick-specs {
+    bottom: 115px;
+  }
+
+  .boat-thumbnails {
+    bottom: 28px;
+    left: clamp(25px, 6.5vw, 100px);
+    right: auto;
+  }
+
+  .boat-story {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .boat-booking-card {
+    grid-column: 2;
+  }
+}
+
+@media (max-width: 700px) {
+  .site-header {
+    height: 74px;
+    padding: 0 8px 0 14px;
+    top: 10px;
+    width: calc(100% - 20px);
+  }
+
+  .brand-name {
+    font-size: 12px;
+  }
+
+  .brand-logo {
+    height: 54px;
+    width: 54px;
+  }
+
+  .hero {
+    height: 1110px;
+    min-height: 1110px;
+  }
+
+  .hero-content {
+    left: 20px;
+    max-width: none;
+    right: 20px;
+    top: 125px;
+  }
+
+  .hero h1 {
+    font-size: clamp(46px, 14vw, 66px);
+    letter-spacing: -3.8px;
+    margin-top: 22px;
+  }
+
+  .hero-content > p {
+    font-size: 15px;
+    max-width: 320px;
+  }
+
+  .hero-buttons {
+    margin-top: 28px;
+  }
+
+  .hero-trust {
+    gap: 8px 12px;
+  }
+
+  .hero-search-card {
+    left: 20px;
+    padding: 22px;
+    right: 20px;
+    top: 545px;
+  }
+
+  .hero-search-card > h2 {
+    font-size: 27px;
+  }
+
+  .hero-fleet-preview {
+    bottom: 20px;
+    display: block;
+    width: calc(100% - 40px);
+  }
+
+  .hero-fleet-preview > button {
+    width: 100%;
+  }
+
+  .hero-fleet-preview > button:nth-child(n + 2) {
+    display: none;
+  }
+
+  .floating-whatsapp {
+    bottom: 14px;
+    right: 14px;
+  }
+
+  .hero-location {
+    display: none;
+  }
+
+  .section-pad,
+  .collection {
+    padding: 90px 20px;
+  }
+
+  .intro h2,
+  .section-heading h2,
+  .services h2,
+  .contact h2 {
+    font-size: 44px;
+    letter-spacing: -2.6px;
+  }
+
+  .section-heading {
+    align-items: start;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .filter-bar {
+    width: 100%;
+  }
+
+  .filter-bar button {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .yacht-grid {
+    gap: 34px;
+    grid-template-columns: 1fr;
+    margin-top: 38px;
+  }
+
+  .card-image-wrap {
+    aspect-ratio: 1.38;
+  }
+
+  .boat-experience-nav {
+    grid-template-columns: 1fr auto;
+  }
+
+  .boat-mini-brand > span:last-child,
+  .boat-close span,
+  .boat-progress {
+    display: none;
+  }
+
+  .boat-detail-hero {
+    min-height: 720px;
+  }
+
+  .boat-title {
+    bottom: 245px;
+  }
+
+  .boat-title h2 {
+    font-size: clamp(55px, 18vw, 80px);
+    letter-spacing: -4px;
+  }
+
+  .boat-title p {
+    font-size: 13px;
+  }
+
+  .boat-quick-specs {
+    bottom: 140px;
+    display: grid;
+    gap: 16px 25px;
+    grid-template-columns: 1fr 1fr;
+    right: 22px;
+  }
+
+  .boat-quick-specs > span {
+    font-size: 12px;
+  }
+
+  .boat-thumbnails {
+    bottom: 23px;
+    gap: 5px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    left: 20px;
+    right: 20px;
+  }
+
+  .boat-thumbnails button {
+    width: auto;
+  }
+
+  .boat-story {
+    gap: 38px;
+    grid-template-columns: 1fr;
+    padding: 85px 20px;
+  }
+
+  .boat-story-copy h3,
+  .more-boats-heading h3 {
+    font-size: 44px;
+    letter-spacing: -2.7px;
+  }
+
+  .boat-story-text {
+    padding-top: 0;
+  }
+
+  .boat-booking-card {
+    grid-column: auto;
+  }
+
+  .more-boats {
+    padding: 80px 20px 90px;
+  }
+
+  .more-boats-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .more-boats-track {
+    grid-template-columns: 1fr;
+  }
+
+  .experience {
+    min-height: 900px;
+  }
+
+  .experience-image {
+    bottom: 46%;
+    inset: 0 0 46%;
+  }
+
+  .experience-card {
+    border: 0;
+    border-radius: 24px 24px 0 0;
+    bottom: 0;
+    max-width: none;
+    padding: 48px 26px;
+    right: 0;
+    top: auto;
+    transform: none;
+    width: 100%;
+  }
+
+  .experience-card h2 {
+    font-size: 46px;
+    letter-spacing: -2.7px;
+  }
+
+  .service-list {
+    margin-top: 45px;
+  }
+
+  .service-row {
+    align-items: start;
+    gap: 12px;
+    grid-template-columns: 34px 1fr;
+    padding: 28px 4px;
+  }
+
+  .service-row p {
+    grid-column: 2;
+  }
+
+  .service-row h3 {
+    font-size: 23px;
+  }
+
+  .ibiza-callout {
+    height: 690px;
+  }
+
+  .ibiza-content h2 {
+    font-size: 57px;
+    letter-spacing: -3.4px;
+  }
+
+  .contact {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .round-contact {
+    height: 130px;
+    width: 130px;
+  }
+
+  .footer-top {
+    grid-template-columns: 1fr;
+    padding-bottom: 55px;
+  }
+
+  .social-link {
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .enquiry-modal {
+    padding: 40px 22px 26px;
+  }
+
+  .enquiry-modal h2 {
+    font-size: 36px;
+  }
+
+  .modal-contacts {
+    flex-direction: column;
+  }
+
+  .charter-form {
+    grid-template-columns: 1fr;
+  }
+
+  .charter-form .full-field,
+  .charter-submit {
+    grid-column: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+.counter {
+  font-size: 16px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: var(--accent);
+  background: var(--accent-bg);
+  border: 2px solid transparent;
+  transition: border-color 0.3s;
+  margin-bottom: 24px;
+
+  &:hover {
+    border-color: var(--accent-border);
+  }
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+.hero {
+  position: relative;
+
+  .base,
+  .framework,
+  .vite {
+    inset-inline: 0;
+    margin: 0 auto;
+  }
+
+  .base {
+    width: 170px;
+    position: relative;
+    z-index: 0;
+  }
+
+  .framework,
+  .vite {
+    position: absolute;
+  }
+
+  .framework {
+    z-index: 1;
+    top: 34px;
+    height: 28px;
+    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
+      scale(1.4);
+  }
+
+  .vite {
+    z-index: 0;
+    top: 107px;
+    height: 26px;
+    width: auto;
+    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
+      scale(0.8);
+  }
+}
+
+#center {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  place-content: center;
+  place-items: center;
+  flex-grow: 1;
+
+  @media (max-width: 1024px) {
+    padding: 32px 20px 24px;
+    gap: 18px;
+  }
+}
+
+#next-steps {
+  display: flex;
+  border-top: 1px solid var(--border);
+  text-align: left;
+
+  & > div {
+    flex: 1 1 0;
+    padding: 32px;
+    @media (max-width: 1024px) {
+      padding: 24px 20px;
+    }
+  }
+
+  .icon {
+    margin-bottom: 16px;
+    width: 22px;
+    height: 22px;
+  }
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+#docs {
+  border-right: 1px solid var(--border);
+
+  @media (max-width: 1024px) {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+#next-steps ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 8px;
+  margin: 32px 0 0;
+
+  .logo {
+    height: 18px;
+  }
+
+  a {
+    color: var(--text-h);
+    font-size: 16px;
+    border-radius: 6px;
+    background: var(--social-bg);
+    display: flex;
+    padding: 6px 12px;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: box-shadow 0.3s;
+
+    &:hover {
+      box-shadow: var(--shadow);
+    }
+    .button-icon {
+      height: 18px;
+      width: 18px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    margin-top: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    li {
+      flex: 1 1 calc(50% - 8px);
+    }
+
+    a {
+      width: 100%;
+      justify-content: center;
+      box-sizing: border-box;
+    }
+  }
+}
+
+#spacer {
+  height: 88px;
+  border-top: 1px solid var(--border);
+  @media (max-width: 1024px) {
+    height: 48px;
+  }
+}
+
+.ticks {
+  position: relative;
+  width: 100%;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: -4.5px;
+    border: 5px solid transparent;
+  }
+
+  &::before {
+    left: 0;
+    border-left-color: var(--border);
+  }
+  &::after {
+    right: 0;
+    border-right-color: var(--border);
+  }
+}
