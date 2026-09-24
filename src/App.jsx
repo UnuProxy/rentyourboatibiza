@@ -139,6 +139,8 @@ const fallbackBoats = [
   },
 ]
 
+const staticSaleBoats = fallbackBoats.filter((boat) => boat.label === 'For sale')
+
 const services = [
   {
     number: '01',
@@ -332,7 +334,7 @@ const copy = {
 }
 
 function WebsiteApp() {
-  const [boats, setBoats] = useState(fallbackBoats)
+  const [boats, setBoats] = useState(staticSaleBoats)
   const [menuOpen, setMenuOpen] = useState(false)
   const [filter, setFilter] = useState('Charter')
   const [enquiryOpen, setEnquiryOpen] = useState(false)
@@ -405,12 +407,13 @@ function WebsiteApp() {
       .then((portbaseBoats) => {
         setBoats([
           ...portbaseBoats,
-          ...fallbackBoats.filter((boat) => boat.label === 'For sale'),
+          ...staticSaleBoats,
         ])
       })
       .catch((error) => {
         if (error.name !== 'AbortError') {
-          console.warn('Using the local fleet because Portbase is unavailable.', error)
+          setBoats(staticSaleBoats)
+          console.warn('Charter fleet hidden because Portbase is unavailable.', error)
         }
       })
 

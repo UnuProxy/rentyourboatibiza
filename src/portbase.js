@@ -1,9 +1,5 @@
-const RIMOTECH_PORTBASE_ORG_ID = '9d718f18-d6de-441f-adee-ffa0cd29c741'
-
-export const PORTBASE_FLEET_URL = import.meta.env.VITE_PORTBASE_FLEET_URL
-  || `https://portbase.app/api/public/broker-fleet/${RIMOTECH_PORTBASE_ORG_ID}`
-export const PORTBASE_AVAILABILITY_URL = import.meta.env.VITE_PORTBASE_AVAILABILITY_URL
-  || `https://portbase.app/api/public/fleet-availability/${RIMOTECH_PORTBASE_ORG_ID}`
+export const PORTBASE_FLEET_URL = '/api/fleet'
+export const PORTBASE_AVAILABILITY_URL = '/api/availability'
 
 function formatPrice(priceByMonth = {}) {
   const entries = Object.entries(priceByMonth)

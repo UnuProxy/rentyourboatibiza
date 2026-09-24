@@ -1,7 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/((?!assets/|instagram/|.*\\..*).*)",
+      "source": "/((?!api/|assets/|instagram/|.*\\..*).*)",
       "destination": "/index.html"
     }
   ],
