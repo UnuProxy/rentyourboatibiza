@@ -8,6 +8,7 @@ import {
   Menu,
   Phone,
   Ruler,
+  Search,
   ShieldCheck,
   Sparkles,
   Users,
@@ -18,7 +19,7 @@ import ContentPage from './ContentPage'
 import CookieConsent from './CookieConsent'
 import { initializeAnalytics, trackEvent } from './analytics'
 import { journalArticles } from './journal'
-import { fetchPortbaseFleet } from './portbase'
+import { fetchAvailablePortbaseBoatIds, fetchPortbaseFleet } from './portbase'
 
 const fallbackBoats = [
   {
@@ -213,6 +214,11 @@ const copy = {
     standard: 'A new standard of brokerage', more: 'More than a yacht.', way: 'Your way to the sea.',
     guidance: 'Local knowledge, international reach, and personal guidance from first conversation to final handover.',
     meet: 'Meet Rent Your Boat', featured: 'Featured yachts',
+    availabilityEyebrow: 'Live Portbase availability', availabilityTitle: 'Find a yacht for your date.',
+    searchDate: 'Charter date', searchName: 'Yacht name (optional)', searchNamePlaceholder: 'Any yacht',
+    checkAvailability: 'Check availability', checkingAvailability: 'Checking Portbase…',
+    clearSearch: 'Clear search', noAvailability: 'No yachts are available for this search. Try another date or yacht name.',
+    availableOn: 'available on',
     charter: 'For rent', sale: 'For sale', all: 'All yachts', fullCollection: 'View the full collection',
     born: 'A project born in Ibiza', global: 'Global expertise.', soul: 'Island soul.',
     localText: 'We know every hidden cove, every marina, and the right people to make things happen. That local instinct is backed by a trusted global brokerage network.',
@@ -271,6 +277,11 @@ const copy = {
     standard: 'Una nueva forma de entender el brokerage', more: 'Más que un yate.', way: 'Tu forma de vivir el mar.',
     guidance: 'Conocimiento local, alcance internacional y atención personal desde la primera conversación hasta la entrega.',
     meet: 'Conoce Rent Your Boat', featured: 'Yates destacados',
+    availabilityEyebrow: 'Disponibilidad en vivo de Portbase', availabilityTitle: 'Encuentra un yate para tu fecha.',
+    searchDate: 'Fecha de alquiler', searchName: 'Nombre del yate (opcional)', searchNamePlaceholder: 'Cualquier yate',
+    checkAvailability: 'Comprobar disponibilidad', checkingAvailability: 'Consultando Portbase…',
+    clearSearch: 'Limpiar búsqueda', noAvailability: 'No hay yates disponibles para esta búsqueda. Prueba otra fecha o nombre.',
+    availableOn: 'disponibles el',
     charter: 'En alquiler', sale: 'En venta', all: 'Todos los yates', fullCollection: 'Ver toda la colección',
     born: 'Un proyecto nacido en Ibiza', global: 'Experiencia global.', soul: 'Alma de isla.',
     localText: 'Conocemos cada cala escondida, cada puerto y a las personas adecuadas para hacerlo realidad. Nuestro instinto local está respaldado por una red internacional de confianza.',
@@ -330,6 +341,11 @@ function WebsiteApp() {
   const [selectedBoat, setSelectedBoat] = useState(null)
   const [activeImage, setActiveImage] = useState(0)
   const [language, setLanguage] = useState('en')
+  const [availabilityDate, setAvailabilityDate] = useState('')
+  const [availabilityName, setAvailabilityName] = useState('')
+  const [availableBoatIds, setAvailableBoatIds] = useState(null)
+  const [availabilityLoading, setAvailabilityLoading] = useState(false)
+  const [availabilityError, setAvailabilityError] = useState('')
   const t = copy[language]
   const enquiryIsRental = enquiryBoat?.label === 'Charter'
   const localiseValue = (value) => language === 'es'
@@ -341,7 +357,25 @@ function WebsiteApp() {
       .replace('/ day', '/ día')
     : value
 
-  const visibleBoats = filter === 'All' ? boats : boats.filter((boat) => boat.label === filter)
+  const filteredBoats = filter === 'All' ? boats : boats.filter((boat) => boat.label === filter)
+  const availableBoatIdSet = new Set(availableBoatIds || [])
+  const visibleBoats = availableBoatIds === null
+    ? filteredBoats.slice(0, 6)
+    : filteredBoats.filter((boat) => availableBoatIdSet.has(String(boat.id)))
+  const charterBoatNames = boats
+    .filter((boat) => boat.label === 'Charter')
+    .map((boat) => boat.name)
+  const minimumSearchDate = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+    .toISOString()
+    .slice(0, 10)
+  const formattedAvailabilityDate = availabilityDate
+    ? new Intl.DateTimeFormat(language === 'es' ? 'es-ES' : 'en-GB', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      timeZone: 'UTC',
+    }).format(new Date(`${availabilityDate}T12:00:00Z`))
+    : ''
 
   useEffect(() => {
     document.documentElement.lang = language
@@ -497,6 +531,44 @@ function WebsiteApp() {
     window.open(`https://wa.me/34696826329?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer')
   }
 
+  const submitAvailabilitySearch = async (event) => {
+    event.preventDefault()
+    const form = new FormData(event.currentTarget)
+    const date = String(form.get('availability-date') || '')
+    const name = String(form.get('availability-name') || '').trim()
+
+    setAvailabilityDate(date)
+    setAvailabilityName(name)
+    setAvailabilityLoading(true)
+    setAvailabilityError('')
+    setFilter('Charter')
+
+    try {
+      const result = await fetchAvailablePortbaseBoatIds({ date, query: name })
+      setAvailableBoatIds(result.boatIds)
+      trackEvent('fleet_availability_search', {
+        date,
+        yacht_name: name || 'any',
+        available_count: result.boatIds.length,
+      })
+    } catch (error) {
+      console.warn('Portbase availability search failed.', error)
+      setAvailableBoatIds(null)
+      setAvailabilityError(language === 'es'
+        ? 'No se pudo consultar Portbase. Inténtalo de nuevo.'
+        : 'Portbase could not be reached. Please try again.')
+    } finally {
+      setAvailabilityLoading(false)
+    }
+  }
+
+  const clearAvailabilitySearch = () => {
+    setAvailabilityDate('')
+    setAvailabilityName('')
+    setAvailableBoatIds(null)
+    setAvailabilityError('')
+  }
+
   return (
     <main>
       <header className="site-header">
@@ -623,18 +695,73 @@ function WebsiteApp() {
           </div>
           <div className="filter-bar" role="group" aria-label="Filter yachts">
             {['Charter', 'For sale', 'All'].map((item) => (
-              <button key={item} className={filter === item ? 'active' : ''} onClick={() => setFilter(item)}>
+              <button
+                key={item}
+                className={filter === item ? 'active' : ''}
+                onClick={() => {
+                  setFilter(item)
+                  if (item !== 'Charter') clearAvailabilitySearch()
+                }}
+              >
                 {item === 'Charter' ? t.charter : item === 'For sale' ? t.sale : t.all}
               </button>
             ))}
           </div>
         </div>
 
+        <form className="fleet-search" onSubmit={submitAvailabilitySearch}>
+          <div className="fleet-search-copy">
+            <span className="eyebrow">{t.availabilityEyebrow}</span>
+            <h3>{t.availabilityTitle}</h3>
+          </div>
+          <label>
+            <span>{t.searchDate}</span>
+            <input
+              type="date"
+              name="availability-date"
+              min={minimumSearchDate}
+              value={availabilityDate}
+              onChange={(event) => setAvailabilityDate(event.target.value)}
+              required
+            />
+          </label>
+          <label>
+            <span>{t.searchName}</span>
+            <input
+              id="fleet-search-name"
+              type="search"
+              name="availability-name"
+              list="fleet-yacht-names"
+              value={availabilityName}
+              placeholder={t.searchNamePlaceholder}
+              onChange={(event) => setAvailabilityName(event.target.value)}
+              autoComplete="off"
+            />
+            <datalist id="fleet-yacht-names">
+              {[...new Set(charterBoatNames)].map((name) => <option value={name} key={name} />)}
+            </datalist>
+          </label>
+          <button type="submit" disabled={availabilityLoading}>
+            <Search size={18} />
+            {availabilityLoading ? t.checkingAvailability : t.checkAvailability}
+          </button>
+        </form>
+
+        <div className="availability-feedback" aria-live="polite">
+          {availabilityError && <p className="availability-error">{availabilityError}</p>}
+          {!availabilityError && availableBoatIds !== null && (
+            <div>
+              <p><strong>{visibleBoats.length}</strong> {t.availableOn} {formattedAvailabilityDate}</p>
+              <button type="button" onClick={clearAvailabilitySearch}>{t.clearSearch}</button>
+            </div>
+          )}
+        </div>
+
         <div className="yacht-grid">
           {visibleBoats.map((boat) => (
             <article
               className={`yacht-card ${boat.featured ? 'featured' : ''}`}
-              key={boat.name}
+              key={boat.id || boat.name}
               onClick={() => openBoat(boat)}
               onKeyDown={(event) => event.key === 'Enter' && openBoat(boat)}
               role="button"
@@ -662,9 +789,9 @@ function WebsiteApp() {
             </article>
           ))}
         </div>
-        <button className="outline-button" onClick={() => setEnquiryOpen(true)}>
-          {t.fullCollection} <ArrowRight size={17} />
-        </button>
+        {availableBoatIds !== null && visibleBoats.length === 0 && (
+          <p className="availability-empty">{t.noAvailability}</p>
+        )}
       </section>
 
       <section className="experience" id="story">

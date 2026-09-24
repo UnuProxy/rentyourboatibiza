@@ -2,6 +2,8 @@ const RIMOTECH_PORTBASE_ORG_ID = '9d718f18-d6de-441f-adee-ffa0cd29c741'
 
 export const PORTBASE_FLEET_URL = import.meta.env.VITE_PORTBASE_FLEET_URL
   || `https://portbase.app/api/public/broker-fleet/${RIMOTECH_PORTBASE_ORG_ID}`
+export const PORTBASE_AVAILABILITY_URL = import.meta.env.VITE_PORTBASE_AVAILABILITY_URL
+  || `https://portbase.app/api/public/fleet-availability/${RIMOTECH_PORTBASE_ORG_ID}`
 
 function formatPrice(priceByMonth = {}) {
   const entries = Object.entries(priceByMonth)
@@ -79,4 +81,27 @@ export async function fetchPortbaseFleet(signal) {
   return Array.isArray(payload.boats)
     ? payload.boats.map(normalisePortbaseBoat)
     : []
+}
+
+export async function fetchAvailablePortbaseBoatIds({ date, query = '', signal }) {
+  const url = new URL(PORTBASE_AVAILABILITY_URL)
+  url.searchParams.set('date', date)
+  if (query.trim()) url.searchParams.set('q', query.trim())
+
+  const response = await fetch(url, {
+    headers: { Accept: 'application/json' },
+    signal,
+  })
+
+  if (!response.ok) {
+    throw new Error(`Portbase availability request failed (${response.status})`)
+  }
+
+  const payload = await response.json()
+  return {
+    boatIds: Array.isArray(payload.available_boat_ids)
+      ? payload.available_boat_ids.map(String)
+      : [],
+    checkedAt: payload.checked_at || null,
+  }
 }
