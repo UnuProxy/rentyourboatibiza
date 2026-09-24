@@ -204,17 +204,17 @@ const instagramPosts = [
 const copy = {
   en: {
     yachts: 'Yachts', services: 'Services', about: 'About', talk: "Let's talk",
-    brokerage: 'Direct yacht charter · Ibiza', heroTitle: 'Rent a yacht in Ibiza.', heroTitle2: 'From €1,300 / day.',
+    brokerage: 'Direct yacht charter · Ibiza', heroTitle: 'Rent a yacht in Ibiza.',
     heroText: 'Verified yachts, transparent daily prices and a local team planning your day from Ibiza to Formentera.',
     discover: 'View rental yachts', sell: 'WhatsApp our team', scroll: 'Scroll to explore',
     findBoat: 'Find your boat', findBoatText: 'Tell us the essentials. We will show you the right options.',
     boatType: 'Yacht type', anyYacht: 'Any yacht', viewAvailable: 'Send request to WhatsApp',
-    verifiedFleet: 'Verified fleet', localTeam: 'Local Ibiza team', directBooking: 'Direct booking',
+    localTeam: 'Local Ibiza team', directBooking: 'Direct booking',
     standard: 'A new standard of brokerage', more: 'More than a yacht.', way: 'Your way to the sea.',
     guidance: 'Local knowledge, international reach, and personal guidance from first conversation to final handover.',
-    meet: 'Meet Rent Your Boat', curated: 'Curated for you', featured: 'Featured yachts',
+    meet: 'Meet Rent Your Boat', featured: 'Featured yachts',
     charter: 'For rent', sale: 'For sale', all: 'All yachts', fullCollection: 'View the full collection',
-    born: 'Born in Ibiza', global: 'Global expertise.', soul: 'Island soul.',
+    born: 'A project born in Ibiza', global: 'Global expertise.', soul: 'Island soul.',
     localText: 'We know every hidden cove, every marina, and the right people to make things happen. That local instinct is backed by a trusted global brokerage network.',
     independent: 'Independent advice', personal: 'Personal service', support: 'End-to-end support', approach: 'Our approach',
     everything: 'Everything yachting', serviceTitle: 'At your service',
@@ -262,17 +262,17 @@ const copy = {
   },
   es: {
     yachts: 'Yates', services: 'Servicios', about: 'Nosotros', talk: 'Hablemos',
-    brokerage: 'Alquiler directo de yates · Ibiza', heroTitle: 'Alquila un yate en Ibiza.', heroTitle2: 'Desde €1.300 / día.',
+    brokerage: 'Alquiler directo de yates · Ibiza', heroTitle: 'Alquila un yate en Ibiza.',
     heroText: 'Yates verificados, precios diarios transparentes y un equipo local para organizar tu día de Ibiza a Formentera.',
     discover: 'Ver yates en alquiler', sell: 'WhatsApp con el equipo', scroll: 'Descubre más',
     findBoat: 'Encuentra tu yate', findBoatText: 'Cuéntanos lo esencial. Te mostraremos las mejores opciones.',
     boatType: 'Tipo de yate', anyYacht: 'Cualquier yate', viewAvailable: 'Enviar solicitud por WhatsApp',
-    verifiedFleet: 'Flota verificada', localTeam: 'Equipo local en Ibiza', directBooking: 'Reserva directa',
+    localTeam: 'Equipo local en Ibiza', directBooking: 'Reserva directa',
     standard: 'Una nueva forma de entender el brokerage', more: 'Más que un yate.', way: 'Tu forma de vivir el mar.',
     guidance: 'Conocimiento local, alcance internacional y atención personal desde la primera conversación hasta la entrega.',
-    meet: 'Conoce Rent Your Boat', curated: 'Seleccionados para ti', featured: 'Yates destacados',
+    meet: 'Conoce Rent Your Boat', featured: 'Yates destacados',
     charter: 'En alquiler', sale: 'En venta', all: 'Todos los yates', fullCollection: 'Ver toda la colección',
-    born: 'Nacidos en Ibiza', global: 'Experiencia global.', soul: 'Alma de isla.',
+    born: 'Un proyecto nacido en Ibiza', global: 'Experiencia global.', soul: 'Alma de isla.',
     localText: 'Conocemos cada cala escondida, cada puerto y a las personas adecuadas para hacerlo realidad. Nuestro instinto local está respaldado por una red internacional de confianza.',
     independent: 'Asesoramiento independiente', personal: 'Servicio personal', support: 'Atención integral', approach: 'Nuestro enfoque',
     everything: 'Todo para tu yate', serviceTitle: 'A tu servicio',
@@ -501,8 +501,7 @@ function WebsiteApp() {
     <main>
       <header className="site-header">
         <button className="brand" onClick={() => scrollTo('home')} aria-label="Rent Your Boat Ibiza home">
-          <img className="brand-logo" src="/rentyourboat-logo.svg" alt="" />
-          <span className="brand-name">Rent Your Boat <b>Ibiza</b></span>
+          <img className="brand-logo" src="/rimotech-logo.png" alt="" />
         </button>
         <nav className="desktop-nav" aria-label="Main navigation">
           <button onClick={() => scrollTo('collection')}>{t.yachts}</button>
@@ -525,14 +524,25 @@ function WebsiteApp() {
       </header>
 
       <section className="hero" id="home">
-        <div className="hero-image" />
+        <video
+          className="hero-video"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/hero-yacht.jpg"
+          aria-hidden="true"
+          disablePictureInPicture
+        >
+          <source src="/hero-beluga.m4v?v=720p" type="video/mp4" />
+        </video>
         <div className="hero-shade" />
         <div className="hero-content">
           <span className="eyebrow light">{t.brokerage}</span>
-          <h1>{t.heroTitle}<strong>{t.heroTitle2}</strong></h1>
+          <h1>{t.heroTitle}</h1>
           <p>{t.heroText}</p>
           <div className="hero-trust">
-            <span><Check size={14} /> {t.verifiedFleet}</span>
             <span><Check size={14} /> {t.localTeam}</span>
             <span><Check size={14} /> {t.directBooking}</span>
           </div>
@@ -575,7 +585,7 @@ function WebsiteApp() {
         </form>
 
         <div className="hero-fleet-preview">
-          {boats.filter((boat) => boat.label === 'Charter').map((boat) => (
+          {boats.filter((boat) => boat.label === 'Charter').slice(0, 3).map((boat) => (
             <button key={boat.name} onClick={() => openBoat(boat)}>
               <img src={boat.image} alt="" />
               <span>
@@ -609,7 +619,6 @@ function WebsiteApp() {
       <section className="collection" id="collection">
         <div className="section-heading">
           <div>
-            <span className="eyebrow">{t.curated}</span>
             <h2>{t.featured}</h2>
           </div>
           <div className="filter-bar" role="group" aria-label="Filter yachts">
@@ -659,7 +668,9 @@ function WebsiteApp() {
       </section>
 
       <section className="experience" id="story">
-        <div className="experience-image" role="img" aria-label="Yacht cruising in the Mediterranean" />
+        <div className="experience-image">
+          <img className="experience-main-image" src="/about-office.jpg" alt="Rent Your Boat Ibiza team at the Ibiza office" loading="lazy" />
+        </div>
         <div className="experience-card">
           <span className="eyebrow light">{t.born}</span>
           <h2>{t.global}<br />{t.soul}</h2>
@@ -771,22 +782,39 @@ function WebsiteApp() {
 
       <footer>
         <div className="footer-top">
+          <div className="footer-column footer-address">
+            <span>{t.visit}</span>
+            <p>
+              Carrer d&apos;Alhaueth, sn<br />
+              Edificio Acuatic Park 3, Local 1<br />
+              07800 Eivissa, Balearic Islands
+            </p>
+            <a
+              className="footer-map"
+              href="https://www.google.com/maps/search/?api=1&query=Carrer+d%27Alhaueth+sn+Edificio+Acuatic+Park+3+Local+1+07800+Eivissa"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Open Rent Your Boat Ibiza location in Google Maps"
+            >
+              <img src="/office-map.png" alt="Map showing the Rent Your Boat Ibiza office location" loading="lazy" />
+              <small>Open in Maps</small>
+            </a>
+            <small className="map-credit">Map © OpenStreetMap contributors</small>
+          </div>
           <div className="footer-brand">
-            <img className="footer-logo" src="/rentyourboat-logo.svg" alt="Rent Your Boat Ibiza" />
+            <img className="footer-logo" src="/rimotech-logo.png" alt="Rimotech Yacht Group" />
             <p>Brokerage · Charter · Sales · Management</p>
           </div>
-          <div className="footer-column">
-            <span>{t.visit}</span>
-            <p>Carrer d&apos;Alhaueth, sn<br />07800 Ibiza, Balearic Islands</p>
+          <div className="footer-contact-group">
+            <div className="footer-column">
+              <span>{t.contact}</span>
+              <a href="tel:+34696826329">+34 696 82 63 29</a>
+              <a href="mailto:info@rentyourboatibiza.com">info@rentyourboatibiza.com</a>
+            </div>
+            <a className="social-link" href="https://www.instagram.com/rentyourboat_ibiza?igsh=cXl6bG9jMW5ibDIz" target="_blank" rel="noreferrer" aria-label="Instagram">
+              <AtSign size={20} />
+            </a>
           </div>
-          <div className="footer-column">
-            <span>{t.contact}</span>
-            <a href="tel:+34696826329">+34 696 82 63 29</a>
-            <a href="mailto:info@rentyourboatibiza.com">info@rentyourboatibiza.com</a>
-          </div>
-          <a className="social-link" href="https://www.instagram.com/rentyourboat_ibiza?igsh=cXl6bG9jMW5ibDIz" target="_blank" rel="noreferrer" aria-label="Instagram">
-            <AtSign size={20} />
-          </a>
         </div>
         <div className="footer-bottom">
           <span>© 2026 Rent Your Boat Ibiza</span>
@@ -802,7 +830,7 @@ function WebsiteApp() {
         <section className={`boat-experience ${selectedBoat.label === 'Charter' ? 'rent-experience' : 'sale-experience'}`} aria-label={`${selectedBoat.name} details`}>
           <div className="boat-experience-nav">
             <button className="boat-mini-brand" onClick={() => setSelectedBoat(null)}>
-              <img className="brand-logo" src="/rentyourboat-logo.svg" alt="" />
+              <img className="brand-logo" src="/rimotech-logo.png" alt="" />
               <span>{t.collection}</span>
             </button>
             <div className="boat-progress">
@@ -896,7 +924,7 @@ function WebsiteApp() {
 
       {menuOpen && (
         <div className="menu-overlay">
-          <img className="menu-logo" src="/rentyourboat-logo.svg" alt="Rent Your Boat Ibiza" />
+          <img className="menu-logo" src="/rimotech-logo.png" alt="Rimotech Yacht Group" />
           <button className="close-button" onClick={() => setMenuOpen(false)} aria-label="Close menu"><X /></button>
           <nav>
             <button onClick={() => scrollTo('collection')}><span>01</span>{t.yachts}</button>
@@ -918,7 +946,7 @@ function WebsiteApp() {
             onMouseDown={(event) => event.stopPropagation()}
           >
             <button className="modal-close" onClick={closeEnquiry} aria-label="Close enquiry"><X size={20} /></button>
-            <div className="modal-icon"><img src="/rentyourboat-logo.svg" alt="" /></div>
+            <div className="modal-icon"><img src="/rimotech-logo.png" alt="" /></div>
             {enquiryBoat ? (
               <>
                 <span className="eyebrow">{enquiryIsRental ? t.charterEnquiry : t.saleEnquiry}</span>

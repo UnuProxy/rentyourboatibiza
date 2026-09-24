@@ -26,9 +26,9 @@
 }
 
 .content-brand img {
-  height: 58px;
+  height: 38px;
   object-fit: contain;
-  width: 58px;
+  width: 190px;
 }
 
 .content-nav > div {
@@ -284,8 +284,8 @@
   }
 
   .content-brand img {
-    height: 50px;
-    width: 50px;
+    height: 30px;
+    width: 145px;
   }
 
   .content-hero-image {

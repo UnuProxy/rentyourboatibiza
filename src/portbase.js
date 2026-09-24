@@ -1,7 +1,7 @@
-const RIMOTECH_BROKER_ORG_ID = '57ca68b8-1469-4dad-ab4f-6ee2c900b9d6'
+const RIMOTECH_PORTBASE_ORG_ID = '9d718f18-d6de-441f-adee-ffa0cd29c741'
 
 export const PORTBASE_FLEET_URL = import.meta.env.VITE_PORTBASE_FLEET_URL
-  || `https://portbase.app/api/public/broker-fleet/${RIMOTECH_BROKER_ORG_ID}`
+  || `https://portbase.app/api/public/broker-fleet/${RIMOTECH_PORTBASE_ORG_ID}`
 
 function formatPrice(priceByMonth = {}) {
   const entries = Object.entries(priceByMonth)
@@ -55,8 +55,8 @@ export function normalisePortbaseBoat(boat) {
     guests: Number.isFinite(capacity) ? `${capacity} guests` : 'Guests on request',
     cabins: formatCabins(metadata.cabins),
     speed: 'On request',
-    image: gallery[0] || '/rentyourboat-logo.svg',
-    gallery: gallery.length > 0 ? gallery : ['/rentyourboat-logo.svg'],
+    image: gallery[0] || '/rimotech-logo.png',
+    gallery: gallery.length > 0 ? gallery : ['/rimotech-logo.png'],
     portbase: true,
     portbaseId: boat.id,
     port: boat.port_name || metadata.port_name || 'Ibiza',

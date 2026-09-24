@@ -147,7 +147,7 @@ export default function ContentPage({ type, slug }) {
     <main className="content-page">
       <header className="content-nav">
         <a href="/" className="content-brand">
-          <img src="/rentyourboat-logo.svg" alt="" />
+          <img src="/rimotech-logo.png" alt="" />
           <span>Rent Your Boat Ibiza</span>
         </a>
         <div>
