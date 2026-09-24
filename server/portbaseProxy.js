@@ -1,3 +1,5 @@
+import { createHmac } from 'node:crypto'
+
 const PORTBASE_ORIGIN = process.env.PORTBASE_INTERNAL_ORIGIN || 'https://portbase.app'
 const FLEET_PATH = '/api/public/broker-fleet/9d718f18-d6de-441f-adee-ffa0cd29c741'
 const AVAILABILITY_PATH = '/api/public/fleet-availability/9d718f18-d6de-441f-adee-ffa0cd29c741'
@@ -90,6 +92,13 @@ export async function getPrivateAvailability({ date, query }) {
   return requestPortbase(AVAILABILITY_PATH, `?${search}`)
 }
 
+export function publicBoatId(boatId) {
+  return createHmac('sha256', process.env.PORTBASE_PROXY_TOKEN)
+    .update(String(boatId))
+    .digest('base64url')
+    .slice(0, 24)
+}
+
 function safeMetadata(value) {
   const metadata = value && typeof value === 'object' ? value : {}
   return {
@@ -108,7 +117,7 @@ export function publicFleetPayload(payload) {
 
   return {
     boats: boats.map((boat) => ({
-      id: String(boat.id || ''),
+      id: publicBoatId(boat.id),
       name: String(boat.name || ''),
       model: String(boat.model || ''),
       capacity: Number.isFinite(Number(boat.capacity)) ? Number(boat.capacity) : null,
@@ -116,7 +125,7 @@ export function publicFleetPayload(payload) {
       port_name: boat.port_name || null,
       metadata: safeMetadata(boat.metadata),
       photos: (Array.isArray(boat.photos) ? boat.photos : []).map(
-        (_, index) => `/api/image?boat=${encodeURIComponent(boat.id)}&index=${index}`
+        (_, index) => `/api/image?boat=${encodeURIComponent(publicBoatId(boat.id))}&index=${index}`
       ),
       price_by_month: Object.fromEntries(
         Object.entries(boat.price_by_month || {})
@@ -130,7 +139,7 @@ export function publicFleetPayload(payload) {
 
 export function privatePhotoUrl(payload, boatId, index) {
   const boats = Array.isArray(payload?.boats) ? payload.boats : []
-  const boat = boats.find((item) => String(item.id) === String(boatId))
+  const boat = boats.find((item) => publicBoatId(item.id) === String(boatId))
   const photos = Array.isArray(boat?.photos) ? boat.photos : []
   const url = photos[Number(index)]
 

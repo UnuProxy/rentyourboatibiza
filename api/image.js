@@ -10,7 +10,7 @@ export default async function handler(request, response) {
   const boatId = String(request.query.boat || '').trim()
   const index = Number(request.query.index)
 
-  if (!/^[0-9a-f-]{36}$/i.test(boatId) || !Number.isInteger(index) || index < 0 || index > 50) {
+  if (!/^[A-Za-z0-9_-]{24}$/.test(boatId) || !Number.isInteger(index) || index < 0 || index > 50) {
     response.status(400).end()
     return
   }

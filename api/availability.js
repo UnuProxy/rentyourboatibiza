@@ -1,6 +1,7 @@
 import {
   getPrivateAvailability,
   protectPublicProxy,
+  publicBoatId,
 } from '../server/portbaseProxy.js'
 
 export default async function handler(request, response) {
@@ -20,7 +21,7 @@ export default async function handler(request, response) {
     response.status(200).json({
       date: payload.date,
       available_boat_ids: Array.isArray(payload.available_boat_ids)
-        ? payload.available_boat_ids.map(String)
+        ? payload.available_boat_ids.map(publicBoatId)
         : [],
       available_boat_count: Number(payload.available_boat_count || 0),
       checked_at: payload.checked_at || null,
