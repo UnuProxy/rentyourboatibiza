@@ -1,5 +1,6 @@
 export const PORTBASE_FLEET_URL = '/api/fleet'
 export const PORTBASE_AVAILABILITY_URL = '/api/availability'
+export const PORTBASE_MONTH_AVAILABILITY_URL = '/api/month-availability'
 
 function formatPrice(priceByMonth = {}) {
   const entries = Object.entries(priceByMonth)
@@ -99,4 +100,21 @@ export async function fetchAvailablePortbaseBoatIds({ date, query = '', signal }
       : [],
     checkedAt: payload.checked_at || null,
   }
+}
+
+export async function fetchPortbaseMonthAvailability({ boatId, month, signal }) {
+  const search = new URLSearchParams({ boat: boatId, month })
+  const response = await fetch(`${PORTBASE_MONTH_AVAILABILITY_URL}?${search}`, {
+    headers: { Accept: 'application/json' },
+    signal,
+  })
+
+  if (!response.ok) {
+    throw new Error(`Portbase month availability request failed (${response.status})`)
+  }
+
+  const payload = await response.json()
+  return Array.isArray(payload.available_dates)
+    ? payload.available_dates.map(String)
+    : []
 }

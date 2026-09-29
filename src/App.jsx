@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react'
 import {
   ArrowRight,
   AtSign,
+  CalendarDays,
   Check,
+  ChevronLeft,
   ChevronRight,
   Mail,
   Menu,
@@ -19,7 +21,11 @@ import ContentPage from './ContentPage'
 import CookieConsent from './CookieConsent'
 import { initializeAnalytics, trackEvent } from './analytics'
 import { journalArticles } from './journal'
-import { fetchAvailablePortbaseBoatIds, fetchPortbaseFleet } from './portbase'
+import {
+  fetchAvailablePortbaseBoatIds,
+  fetchPortbaseFleet,
+  fetchPortbaseMonthAvailability,
+} from './portbase'
 
 const fallbackBoats = [
   {
@@ -238,6 +244,9 @@ const copy = {
     saleStory1: 'Discover {boat}, a distinctive ownership opportunity selected by our brokerage team for its design, condition and enduring market appeal.',
     saleStory2: 'We provide clear guidance through specifications, surveys, negotiation and handover, with discreet support at every stage of the purchase.',
     itinerary: 'Personalised itinerary and local concierge included.', availability: 'Request availability',
+    bookNow: 'Book now', liveCalendar: 'Live availability', selectAvailableDay: 'Select an available day',
+    calendarLoading: 'Loading live dates…', calendarError: 'Calendar temporarily unavailable.',
+    availableDay: 'Available', unavailableDay: 'Unavailable', bookingConversation: 'Starts a conversation — your date is not held yet.',
     privateEnquiry: 'Private, no-obligation enquiry', keepExploring: 'Keep exploring',
     moreYachts: 'More yachts, more possibilities.', selected: 'Selected for Ibiza',
     journey: 'Your journey starts here', help: 'How can we help?',
@@ -301,6 +310,9 @@ const copy = {
     saleStory1: 'Descubre {boat}, una oportunidad de propiedad seleccionada por nuestro equipo por su diseño, estado y atractivo en el mercado.',
     saleStory2: 'Te acompañamos con claridad en especificaciones, inspección, negociación y entrega, siempre con absoluta discreción.',
     itinerary: 'Itinerario personalizado y concierge local incluidos.', availability: 'Consultar disponibilidad',
+    bookNow: 'Reservar ahora', liveCalendar: 'Disponibilidad en vivo', selectAvailableDay: 'Elige un día disponible',
+    calendarLoading: 'Cargando fechas…', calendarError: 'Calendario temporalmente no disponible.',
+    availableDay: 'Disponible', unavailableDay: 'No disponible', bookingConversation: 'Inicia una conversación — la fecha todavía no queda bloqueada.',
     privateEnquiry: 'Consulta privada y sin compromiso', keepExploring: 'Sigue explorando',
     moreYachts: 'Más yates, más posibilidades.', selected: 'Seleccionados para Ibiza',
     journey: 'Tu viaje comienza aquí', help: '¿Cómo podemos ayudarte?',
@@ -333,6 +345,23 @@ const copy = {
   },
 }
 
+function calendarDays(month) {
+  const [year, monthNumber] = month.split('-').map(Number)
+  const dayCount = new Date(Date.UTC(year, monthNumber, 0)).getUTCDate()
+  const leadingBlanks = (new Date(Date.UTC(year, monthNumber - 1, 1)).getUTCDay() + 6) % 7
+
+  return [
+    ...Array.from({ length: leadingBlanks }, () => null),
+    ...Array.from({ length: dayCount }, (_, index) => {
+      const day = index + 1
+      return {
+        day,
+        date: `${month}-${String(day).padStart(2, '0')}`,
+      }
+    }),
+  ]
+}
+
 function WebsiteApp() {
   const [boats, setBoats] = useState(staticSaleBoats)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -348,6 +377,11 @@ function WebsiteApp() {
   const [availableBoatIds, setAvailableBoatIds] = useState(null)
   const [availabilityLoading, setAvailabilityLoading] = useState(false)
   const [availabilityError, setAvailabilityError] = useState('')
+  const [calendarMonth, setCalendarMonth] = useState('')
+  const [calendarAvailableDates, setCalendarAvailableDates] = useState([])
+  const [calendarLoading, setCalendarLoading] = useState(false)
+  const [calendarError, setCalendarError] = useState('')
+  const [bookingDate, setBookingDate] = useState('')
   const t = copy[language]
   const enquiryIsRental = enquiryBoat?.label === 'Charter'
   const localiseValue = (value) => language === 'es'
@@ -378,6 +412,17 @@ function WebsiteApp() {
       timeZone: 'UTC',
     }).format(new Date(`${availabilityDate}T12:00:00Z`))
     : ''
+  const calendarDateSet = new Set(calendarAvailableDates)
+  const calendarMonthTitle = calendarMonth
+    ? new Intl.DateTimeFormat(language === 'es' ? 'es-ES' : 'en-GB', {
+      month: 'long',
+      year: 'numeric',
+      timeZone: 'UTC',
+    }).format(new Date(`${calendarMonth}-01T12:00:00Z`))
+    : ''
+  const calendarWeekdays = language === 'es'
+    ? ['L', 'M', 'X', 'J', 'V', 'S', 'D']
+    : ['M', 'T', 'W', 'T', 'F', 'S', 'S']
 
   useEffect(() => {
     document.documentElement.lang = language
@@ -421,6 +466,35 @@ function WebsiteApp() {
   }, [])
 
   useEffect(() => {
+    if (!selectedBoat?.portbase || selectedBoat.label !== 'Charter' || !calendarMonth) return undefined
+
+    const controller = new AbortController()
+    setCalendarLoading(true)
+    setCalendarError('')
+
+    fetchPortbaseMonthAvailability({
+      boatId: selectedBoat.id,
+      month: calendarMonth,
+      signal: controller.signal,
+    })
+      .then((dates) => {
+        setCalendarAvailableDates(dates)
+        setBookingDate((current) => dates.includes(current) ? current : '')
+      })
+      .catch((error) => {
+        if (error.name !== 'AbortError') {
+          setCalendarAvailableDates([])
+          setCalendarError(t.calendarError)
+        }
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setCalendarLoading(false)
+      })
+
+    return () => controller.abort()
+  }, [calendarMonth, selectedBoat, t.calendarError])
+
+  useEffect(() => {
     document.body.style.overflow = menuOpen || enquiryOpen || selectedBoat ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [menuOpen, enquiryOpen, selectedBoat])
@@ -452,8 +526,42 @@ function WebsiteApp() {
   }
 
   const openBoat = (boat) => {
+    const searchedDateIsAvailable = availabilityDate
+      && availableBoatIdSet.has(String(boat.id))
+
     setActiveImage(0)
+    setCalendarMonth((searchedDateIsAvailable ? availabilityDate : minimumSearchDate).slice(0, 7))
+    setBookingDate(searchedDateIsAvailable ? availabilityDate : '')
+    setCalendarAvailableDates([])
+    setCalendarError('')
     setSelectedBoat(boat)
+  }
+
+  const moveCalendarMonth = (offset) => {
+    const date = new Date(`${calendarMonth}-01T12:00:00Z`)
+    date.setUTCMonth(date.getUTCMonth() + offset)
+    setCalendarMonth(date.toISOString().slice(0, 7))
+    setBookingDate('')
+  }
+
+  const bookSelectedCharter = () => {
+    if (!selectedBoat || !bookingDate) return
+
+    const dateLabel = new Intl.DateTimeFormat(language === 'es' ? 'es-ES' : 'en-GB', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      timeZone: 'UTC',
+    }).format(new Date(`${bookingDate}T12:00:00Z`))
+    const message = language === 'es'
+      ? `Hola, quiero reservar ${selectedBoat.name} para el ${dateLabel}. Entiendo que este mensaje inicia la conversación y que la fecha aún no queda bloqueada.`
+      : `Hello, I would like to book ${selectedBoat.name} for ${dateLabel}. I understand this starts the conversation and does not hold the date yet.`
+
+    trackEvent('charter_book_now', {
+      boat: selectedBoat.name,
+      date: bookingDate,
+    })
+    window.open(`https://wa.me/34696826329?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer')
   }
 
   const openBoatEnquiry = (boat) => {
@@ -1012,13 +1120,68 @@ function WebsiteApp() {
               <p>{selectedBoat.label === 'Charter' ? t.story2 : t.saleStory2}</p>
             </div>
             <aside className={`boat-booking-card ${selectedBoat.label === 'Charter' ? 'rent-card' : 'sale-card'}`}>
-              <span>{selectedBoat.label === 'Charter' ? t.charter : t.sale}</span>
-              <strong>{localiseValue(selectedBoat.price)}</strong>
-              <p>{selectedBoat.label === 'Charter' ? t.itinerary : t.saleCardText}</p>
-              <button onClick={() => openBoatEnquiry(selectedBoat)}>
-                {selectedBoat.label === 'Charter' ? t.availability : t.requestDetails} <ArrowRight size={17} />
-              </button>
-              <small><ShieldCheck size={14} /> {t.privateEnquiry}</small>
+              {selectedBoat.label === 'Charter' ? (
+                <>
+                  <span>{t.charter}</span>
+                  <strong>{localiseValue(selectedBoat.price)}</strong>
+                  <p>{t.itinerary}</p>
+                  <div className="booking-calendar">
+                    <div className="booking-calendar-heading">
+                      <span><CalendarDays size={14} /> {t.liveCalendar}</span>
+                      <div>
+                        <button
+                          type="button"
+                          onClick={() => moveCalendarMonth(-1)}
+                          disabled={calendarMonth <= minimumSearchDate.slice(0, 7)}
+                          aria-label="Previous month"
+                        >
+                          <ChevronLeft size={15} />
+                        </button>
+                        <b>{calendarMonthTitle}</b>
+                        <button type="button" onClick={() => moveCalendarMonth(1)} aria-label="Next month">
+                          <ChevronRight size={15} />
+                        </button>
+                      </div>
+                    </div>
+                    <div className="booking-calendar-grid">
+                      {calendarWeekdays.map((day, index) => <i key={`${day}-${index}`}>{day}</i>)}
+                      {calendarDays(calendarMonth).map((item, index) => {
+                        if (!item) return <span className="calendar-blank" key={`blank-${index}`} />
+                        const available = calendarDateSet.has(item.date) && item.date >= minimumSearchDate
+                        return (
+                          <button
+                            type="button"
+                            className={`${available ? 'available' : ''} ${bookingDate === item.date ? 'selected' : ''}`}
+                            disabled={!available}
+                            onClick={() => setBookingDate(item.date)}
+                            aria-label={`${item.date}: ${available ? t.availableDay : t.unavailableDay}`}
+                            key={item.date}
+                          >
+                            {item.day}
+                          </button>
+                        )
+                      })}
+                    </div>
+                    {calendarLoading && <em>{t.calendarLoading}</em>}
+                    {calendarError && <em className="calendar-error">{calendarError}</em>}
+                    {!calendarLoading && !calendarError && <em>{t.selectAvailableDay}</em>}
+                  </div>
+                  <button className="book-now-button" onClick={bookSelectedCharter} disabled={!bookingDate}>
+                    {t.bookNow} <ArrowRight size={17} />
+                  </button>
+                  <small><ShieldCheck size={14} /> {t.bookingConversation}</small>
+                </>
+              ) : (
+                <>
+                  <span>{t.sale}</span>
+                  <strong>{localiseValue(selectedBoat.price)}</strong>
+                  <p>{t.saleCardText}</p>
+                  <button onClick={() => openBoatEnquiry(selectedBoat)}>
+                    {t.requestDetails} <ArrowRight size={17} />
+                  </button>
+                  <small><ShieldCheck size={14} /> {t.privateEnquiry}</small>
+                </>
+              )}
             </aside>
           </div>
 

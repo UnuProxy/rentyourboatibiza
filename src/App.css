@@ -1588,7 +1588,7 @@ footer {
   align-items: start;
   display: grid;
   gap: clamp(40px, 6vw, 90px);
-  grid-template-columns: 1.1fr 1fr .72fr;
+  grid-template-columns: 1.05fr .9fr minmax(300px, .9fr);
   margin: 0 auto;
   max-width: 1440px;
   padding: 125px clamp(25px, 6.5vw, 100px);
@@ -1683,6 +1683,123 @@ footer {
   justify-content: center;
   margin-top: 15px;
   text-transform: uppercase;
+}
+
+.booking-calendar {
+  border-top: 1px solid var(--line);
+  margin: 0 0 16px;
+  padding-top: 15px;
+}
+
+.booking-calendar-heading > span {
+  align-items: center;
+  color: #0980a7;
+  display: flex;
+  font-size: 9px;
+  gap: 6px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.booking-calendar-heading > div {
+  align-items: center;
+  display: grid;
+  grid-template-columns: 28px 1fr 28px;
+  margin: 9px 0 11px;
+}
+
+.booking-calendar-heading b {
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.boat-booking-card .booking-calendar-heading button {
+  align-items: center;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  display: flex;
+  height: 28px;
+  justify-content: center;
+  padding: 0;
+  width: 28px;
+}
+
+.boat-booking-card .booking-calendar-heading button:disabled {
+  cursor: default;
+  opacity: .25;
+}
+
+.booking-calendar-grid {
+  display: grid;
+  gap: 4px;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.booking-calendar-grid i {
+  color: #98a1a3;
+  font-size: 8px;
+  font-style: normal;
+  padding-bottom: 3px;
+  text-align: center;
+}
+
+.boat-booking-card .booking-calendar-grid button,
+.booking-calendar-grid .calendar-blank {
+  aspect-ratio: 1;
+  min-width: 0;
+}
+
+.boat-booking-card .booking-calendar-grid button {
+  background: #f3f4f1;
+  border: 0;
+  border-radius: 7px;
+  color: #b1b7b7;
+  cursor: default;
+  display: grid;
+  font-size: 9px;
+  padding: 0;
+  place-items: center;
+}
+
+.boat-booking-card .booking-calendar-grid button.available {
+  background: #e1f5f7;
+  color: #087d9e;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.boat-booking-card .booking-calendar-grid button.available:hover,
+.boat-booking-card .booking-calendar-grid button.selected {
+  background: #087d9e;
+  color: white;
+}
+
+.booking-calendar em {
+  color: #879194;
+  display: block;
+  font-size: 8px;
+  font-style: normal;
+  margin-top: 9px;
+  text-align: center;
+}
+
+.booking-calendar em.calendar-error {
+  color: #a95d53;
+}
+
+.boat-booking-card .book-now-button:disabled {
+  cursor: not-allowed;
+  opacity: .38;
+}
+
+.boat-booking-card.rent-card > small {
+  line-height: 1.35;
+  text-align: center;
 }
 
 .more-boats {

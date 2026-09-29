@@ -8,6 +8,7 @@ const requestBuckets = new Map()
 
 let fleetCache = null
 let fleetCacheExpiresAt = 0
+const availabilityCache = new Map()
 
 function clientIp(request) {
   return String(request.headers['x-forwarded-for'] || request.socket?.remoteAddress || 'unknown')
@@ -87,9 +88,18 @@ export async function getPrivateFleet() {
 }
 
 export async function getPrivateAvailability({ date, query }) {
+  const cacheKey = `${date}:${query || ''}`
+  const cached = availabilityCache.get(cacheKey)
+  if (cached?.expiresAt > Date.now()) return cached.payload
+
   const search = new URLSearchParams({ date })
   if (query) search.set('q', query)
-  return requestPortbase(AVAILABILITY_PATH, `?${search}`)
+  const payload = await requestPortbase(AVAILABILITY_PATH, `?${search}`)
+  availabilityCache.set(cacheKey, {
+    payload,
+    expiresAt: Date.now() + 60_000,
+  })
+  return payload
 }
 
 export function publicBoatId(boatId) {
