@@ -80,11 +80,10 @@ export async function fetchPortbaseFleet(signal) {
 }
 
 export async function fetchAvailablePortbaseBoatIds({ date, query = '', signal }) {
-  const url = new URL(PORTBASE_AVAILABILITY_URL)
-  url.searchParams.set('date', date)
-  if (query.trim()) url.searchParams.set('q', query.trim())
+  const search = new URLSearchParams({ date })
+  if (query.trim()) search.set('q', query.trim())
 
-  const response = await fetch(url, {
+  const response = await fetch(`${PORTBASE_AVAILABILITY_URL}?${search}`, {
     headers: { Accept: 'application/json' },
     signal,
   })
