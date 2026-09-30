@@ -627,21 +627,6 @@ function WebsiteApp() {
     window.location.href = `mailto:info@rentyourboatibiza.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
   }
 
-  const submitHeroSearch = (event) => {
-    event.preventDefault()
-    const form = new FormData(event.currentTarget)
-    const date = form.get('hero-date') || (language === 'es' ? 'Flexible' : 'Flexible')
-    const message = language === 'es'
-      ? `Hola, quiero alquilar un yate en Ibiza.\n\nFecha: ${date}\nInvitados: ${form.get('hero-guests')}\nTipo de yate: ${form.get('hero-type')}\n\n¿Podéis enviarme las opciones disponibles?`
-      : `Hello, I would like to rent a yacht in Ibiza.\n\nDate: ${date}\nGuests: ${form.get('hero-guests')}\nYacht type: ${form.get('hero-type')}\n\nCould you send me the available options?`
-    trackEvent('hero_search_submit', {
-      date,
-      guests: form.get('hero-guests'),
-      yacht_type: form.get('hero-type'),
-    })
-    window.open(`https://wa.me/34696826329?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer')
-  }
-
   const submitAvailabilitySearch = async (event) => {
     event.preventDefault()
     const form = new FormData(event.currentTarget)
@@ -738,34 +723,6 @@ function WebsiteApp() {
             </a>
           </div>
         </div>
-
-        <form className="hero-search-card" onSubmit={submitHeroSearch}>
-          <span className="eyebrow">{t.findBoat}</span>
-          <h2>{t.findBoat}</h2>
-          <p>{t.findBoatText}</p>
-          <label>
-            <span>{t.preferredDate}</span>
-            <input type="date" name="hero-date" />
-          </label>
-          <div className="hero-search-row">
-            <label>
-              <span>{t.numberGuests}</span>
-              <select name="hero-guests" defaultValue="8">
-                {Array.from({ length: 11 }, (_, index) => index + 2).map((count) => <option key={count}>{count}</option>)}
-              </select>
-            </label>
-            <label>
-              <span>{t.boatType}</span>
-              <select name="hero-type" defaultValue={t.anyYacht}>
-                <option>{t.anyYacht}</option>
-                <option>{t.openYacht}</option>
-                <option>{t.sportYacht}</option>
-                <option>{t.luxuryYacht}</option>
-              </select>
-            </label>
-          </div>
-          <button type="submit">{t.viewAvailable}<ArrowRight size={17} /></button>
-        </form>
 
         <div className="hero-fleet-preview">
           {boats.filter((boat) => boat.label === 'Charter').slice(0, 3).map((boat) => (
@@ -1036,8 +993,8 @@ function WebsiteApp() {
             >
               <img src="/office-map.png" alt="Map showing the Rent Your Boat Ibiza office location" loading="lazy" />
               <small>Open in Maps</small>
+              <span className="map-credit-overlay">© OpenStreetMap</span>
             </a>
-            <small className="map-credit">Map © OpenStreetMap contributors</small>
           </div>
           <div className="footer-brand">
             <img className="footer-logo" src="/rimotech-logo.png" alt="Rimotech Yacht Group" />

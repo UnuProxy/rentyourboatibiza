@@ -1321,9 +1321,14 @@ footer {
   transform: scale(1.02);
 }
 
-.map-credit {
-  color: rgba(255, 255, 255, 0.25);
-  font-size: 8px;
+.map-credit-overlay {
+  bottom: 4px;
+  color: rgba(255, 255, 255, .68);
+  font-size: 6px;
+  left: 7px;
+  line-height: 1;
+  position: absolute;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .85);
 }
 
 .footer-contact-group {
@@ -2259,16 +2264,16 @@ footer {
   }
 
   .hero {
-    height: 1080px;
-    min-height: 1080px;
+    height: min(940px, 100svh);
+    min-height: 820px;
   }
 
   .hero-content {
     left: 28px;
     max-width: calc(100% - 56px);
     right: 28px;
-    top: 150px;
-    transform: none;
+    top: 43%;
+    transform: translateY(-50%);
   }
 
   .hero-search-card {
