@@ -2550,44 +2550,66 @@ footer {
   }
 
   .boat-detail-hero {
-    min-height: 720px;
+    height: 100svh;
+    min-height: 680px;
   }
 
   .boat-title {
-    bottom: 245px;
+    bottom: 168px;
+    left: 20px;
+    max-width: calc(100% - 40px);
+    right: 20px;
   }
 
   .boat-title h2 {
-    font-size: clamp(55px, 18vw, 80px);
-    letter-spacing: -4px;
+    font-size: clamp(43px, 13vw, 60px);
+    letter-spacing: -3px;
+    line-height: .88;
+    margin: 14px 0 12px;
+    overflow-wrap: anywhere;
   }
 
   .boat-title p {
-    font-size: 13px;
-  }
-
-  .boat-quick-specs {
-    bottom: 140px;
-    display: grid;
-    gap: 16px 25px;
-    grid-template-columns: 1fr 1fr;
-    right: 22px;
-  }
-
-  .boat-quick-specs > span {
     font-size: 12px;
   }
 
-  .boat-thumbnails {
-    bottom: 23px;
-    gap: 5px;
+  .boat-quick-specs {
+    bottom: 91px;
+    gap: 8px;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     left: 20px;
     right: 20px;
   }
 
+  .boat-quick-specs > span {
+    font-size: 10px;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .boat-quick-specs small {
+    font-size: 7px;
+    letter-spacing: .7px;
+  }
+
+  .boat-thumbnails {
+    bottom: 17px;
+    display: flex;
+    gap: 6px;
+    left: 20px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    right: 20px;
+    scrollbar-width: none;
+  }
+
+  .boat-thumbnails::-webkit-scrollbar {
+    display: none;
+  }
+
   .boat-thumbnails button {
-    width: auto;
+    flex: 0 0 68px;
+    width: 68px;
   }
 
   .boat-story {
